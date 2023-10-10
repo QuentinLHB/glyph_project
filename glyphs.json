@@ -1,0 +1,9 @@
+[
+  {
+    "type_id": 1,
+    "label": "Exemple",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\"><desc>je</desc><defs></defs><g transform=\"matrix(1.0029247901 0 0 0.9988699902 248.5935505032 241.9980776344)\" id=\"1_NXp3BQ1G4GY1SmAZnF4\"><path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M -237.63562 -234.68369 L 113.49851000000004 234.68369 L 237.63563000000005 130.62563 L 128.94986000000006 -15.29491999999999\" stroke-linecap=\"round\" /></g></svg>",
+    "description": "Ceci est un exemple",
+    "traduction": "exemple traduction"
+  }
+]
