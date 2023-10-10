@@ -1,10 +1,27 @@
 [
   {
-    "id" : 1
+    "id" : 1,
     "type_id": 1,
-    "label": "Exemple",
+    "label": "je",
     "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\"><desc>je</desc><defs></defs><g transform=\"matrix(1.0029247901 0 0 0.9988699902 248.5935505032 241.9980776344)\" id=\"1_NXp3BQ1G4GY1SmAZnF4\"><path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M -237.63562 -234.68369 L 113.49851000000004 234.68369 L 237.63563000000005 130.62563 L 128.94986000000006 -15.29491999999999\" stroke-linecap=\"round\" /></g></svg>",
-    "description": "Ceci est un exemple",
-    "traduction": "exemple traduction"
+    "description": "",
+    "translation": "je/moi"
+  },
+  {
+    "id" : 2,
+    "type_id": 1,
+    "label": "tu",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\">\n<desc>tu</desc>\n<defs>\n</defs>\n<g transform=\"matrix(1.0029247901 0 0 0.9988699902 254.9440400834 245.7462035714)\" id=\"1_NXp3BQ1G4GY1SmAZnF4\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(-0.000005, 0.000005)\" d=\"M -243.96759 -238.43606 L -4.92962 238.43605000000002 L 90.03767 24.808900000000023 L 243.9676 24.808900000000023\" stroke-linecap=\"round\" />\n</g>\n</svg>",
+    "description": "",
+    "translation": "tu/toi"
+  },
+  {
+    "id" : 3,
+    "type_id": 2,
+    "label": "amour",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\">\n<desc>Created with Fabric.js 5.3.0</desc>\n<defs>\n</defs>\n<g transform=\"matrix(2.1062370718 0 0 1.5948404838 135.7063529308 177.8314559424)\" id=\"lb03UqlTgpnyaCPYjaL5_\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, -0.0000054509)\" d=\"M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193\" stroke-linecap=\"round\" />\n</g>\n<g transform=\"matrix(2.1062370718 0 0 1.5948404838 364.9643396061 177.8314559424)\" id=\"CeAWaL2x3689HrQgOr5wl\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, -0.0000054509)\" d=\"M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193\" stroke-linecap=\"round\" />\n</g>\n<g transform=\"matrix(2.1062370718 0 0 -1.4602940315 364.9643465848 330.2415864398)\" id=\"RCuQJ01dbc3ZYJlA1QKTt\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193\" stroke-linecap=\"round\" />\n</g>\n<g transform=\"matrix(2.1062370718 0 0 -1.4602940315 135.7063529308 329.2415901411)\" id=\"LPgkbqAv2qLs4sAEPdy1O\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 22; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, -0.0000054509)\" d=\"M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193\" stroke-linecap=\"round\" />\n</g>\n</svg>",
+    "description": "",
+    "translation": "amour"
   }
+
 ]
