@@ -3,26 +3,13 @@
     "id" : 1,
     "type_id": 1,
     "label": "je",
-    "svg": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="500" height="500" viewBox="0 0 500 500" xml:space="preserve">
-<desc>Created with Fabric.js 5.3.0</desc>
-<defs>
-</defs>
-<g transform="matrix(1.6828417767 0 0 1.274246014 157.3632933112 192.3387616643)" id="lb03UqlTgpnyaCPYjaL5_"  >
-<path style="stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193" stroke-linecap="round" />
-</g>
-<g transform="matrix(1.6828417767 0 0 1.274246014 342.1338578982 192.3387616643)" id="CeAWaL2x3689HrQgOr5wl"  >
-<path style="stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193" stroke-linecap="round" />
-</g>
-<g transform="matrix(1.6828417767 0 0 -1.1667460588 342.1338578982 314.1114425383)" id="RCuQJ01dbc3ZYJlA1QKTt"  >
-<path style="stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193" stroke-linecap="round" />
-</g>
-<g transform="matrix(1.6828417767 0 0 -1.1667460588 157.3632933112 313.3124652671)" id="LPgkbqAv2qLs4sAEPdy1O"  >
-<path style="stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M -53.25337 50.00193 C -53.25337 -53.62626 -2.3987999999999943 -49.788169999999994 -2.3987999999999943 -49.788169999999994 C -2.3987999999999943 -49.788169999999994 52.293850000000006 -59.38336999999999 53.253370000000004 50.00193" stroke-linecap="round" />
-</g>
-<g transform="matrix(1.0056975812 0 0 1.0056975812 448.5792714501 249.6185236428)" id="O02-4N-B91Z0T0dkI6wOm"  >
-<path style="stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M 0 0" stroke-linecap="round" />
-</g>
-</svg>",
+    "svg": "&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot; width=&quot;500&quot; height=&quot;500&quot; viewBox=&quot;0 0 500 500&quot; xml:space=&quot;preserve&quot;&gt;
+&lt;desc&gt;Created with Fabric.js 5.3.0&lt;/desc&gt;
+&lt;defs&gt;
+&lt;/defs&gt;
+&lt;g transform=&quot;matrix(1.6828417767 0 0 1.274246014 157.3632933112 192.3387616643)&quot; id=&quot;lb03UqlTgpnyaCPYjaL5_&quot;  &gt;
+&lt;path style=&quot;stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;&quot;  transform=&quot; translate(0, 0)&quot
+",
     "description": "",
     "translation": "je/moi"
   },
