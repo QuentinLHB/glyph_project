@@ -50,9 +50,9 @@
   {
     "id": 7,
     "type_id": 3,
-    "label": "verbe",
+    "label": "négation",
     "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\">\n<desc>Created with Fabric.js 5.3.0</desc>\n<defs>\n</defs>\n<g transform=\"matrix(12.4626972228 0 0 8.5714285714 240 30)\" id=\"7Yoe2zNChZ65E5DPy83Yi\"  >\n<path style=\"stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M -10 3 C -10 3 -10 -3 -4 -3 C 0 -3 0.5 0.5 3.5 0.5 C 7.5 0.5 7.5 -3 7.5 -3 L 10 -3 C 10 -3 10 3 4 3 C 0 3 -1.5 -0.5 -3.5 -0.5 C -7.5 -0.5 -7.5 3 -7.5 3 L -10 3\" stroke-linecap=\"round\" />\n</g>\n</svg>",
     "description": "",
-    "translation": "verbe"
+    "translation": "négation"
   }
 ]
