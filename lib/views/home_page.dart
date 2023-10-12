@@ -5,6 +5,9 @@ import 'package:glyph_project/models/glyph.dart';
 import 'package:glyph_project/views/glyph_card.dart';
 import 'package:glyph_project/views/svg_glyph.dart';
 
+import '../models/glyph_type.dart';
+import 'glyph_type_button_widget.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -21,32 +24,57 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<Glyph>>(
-        future: MainController().getAllGlyphs(), // Assurez-vous d'avoir une méthode qui renvoie Future<List<Glyph>>
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Erreur : ${snapshot.error}');
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Text('Aucune donnée disponible');
-          } else {
-            List<Glyph> myGlyphs = snapshot.data!;
+      appBar: AppBar(
+          title: Text("Dictionnaire"),
+          backgroundColor: Colors.lightBlueAccent
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: MainController.instance.glyphTypes.length,
+          itemBuilder: (BuildContext context, int index) {
+            GlyphType glyphType = MainController.instance.glyphTypes[index];
+            // Filtrez vos glyphs par type ici. Vous pouvez utiliser une fonction qui renvoie
+            // les Glyph correspondant à un GlyphType particulier.
+            List<Glyph> glyphsForType = MainController.instance.getGlyphsForType(glyphType);
 
-            return Center(
-              child: Wrap(
-                spacing: 8.0, // l'espace entre les widgets horizontalement
-                runSpacing: 4.0, // l'espace entre les widgets verticalement
-                children: myGlyphs.map((glyph) => GlyphCard(glyph: glyph)).toList(),
-              ),
+            return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            // Titre du type
+            Text(
+            glyphType.label,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+
+            // Grille de glyphs pour ce type
+            GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(), // pour empêcher le défilement à l'intérieur du GridView
+            itemCount: glyphsForType.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+            childAspectRatio: 0.65,
+            ),
+            itemBuilder: (context, index) {
+            return GlyphCard(glyph: glyphsForType[index]);
+            },
+            )
+            ,
+            ]
+            ,
             );
-          }
-        },
+          },
+        ),
       ),
     );
   }
+
 
 }

@@ -8,37 +8,40 @@ class GlyphCard extends StatelessWidget {
 
   GlyphCard({required this.glyph});
 
-  @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
       elevation: 5,
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: SvgGlyphWidget(svgString: glyph.svg),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6.0),
+              child: SvgGlyphWidget(svgString: glyph.svg),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              padding: const EdgeInsets.all(7.0),
+              child: Text(
+                glyph.translation ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              glyph.translation?? "",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
 }
 
 class SvgGlyphWidget extends StatelessWidget {

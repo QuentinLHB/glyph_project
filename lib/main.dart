@@ -6,7 +6,7 @@ import 'package:glyph_project/models/database_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await MainController().initData();
+  await MainController.instance.initData();
   runApp(const MyApp());
 }
 
@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
   });
   
   void initApp()  {
-    MainController().initData();
   }
 
   // This widget is the root of your application.
