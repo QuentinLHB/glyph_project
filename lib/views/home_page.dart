@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/models/complex_glyph.dart';
 import 'package:glyph_project/models/database_manager.dart';
 import 'package:glyph_project/models/glyph.dart';
 import 'package:glyph_project/views/glyph_card.dart';
 import 'package:glyph_project/views/svg_glyph.dart';
 
 import '../models/glyph_type.dart';
+import 'glyph_details_page.dart';
 import 'glyph_type_button_widget.dart';
 
 
@@ -38,9 +40,7 @@ class _HomePageState extends State<HomePage> {
           itemCount: MainController.instance.glyphTypes.length,
           itemBuilder: (BuildContext context, int index) {
             GlyphType glyphType = MainController.instance.glyphTypes[index];
-            // Filtrez vos glyphs par type ici. Vous pouvez utiliser une fonction qui renvoie
-            // les Glyph correspondant à un GlyphType particulier.
-            List<Glyph> glyphsForType = MainController.instance.getGlyphsForType(glyphType);
+            List<ComplexGlyph> glyphsForType = MainController.instance.getGlyphsForType(glyphType);
 
             return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,13 @@ class _HomePageState extends State<HomePage> {
             childAspectRatio: 0.65,
             ),
             itemBuilder: (context, index) {
-            return GlyphCard(glyph: glyphsForType[index]);
+            return GlyphCard(glyph: glyphsForType[index], onClick: (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => GlyphDetailPage(glyph: glyphsForType[index]),
+                  ),
+              );
+              });
             },
             )
             ,

@@ -1,3 +1,4 @@
+import 'package:glyph_project/models/complex_glyph.dart';
 import 'package:glyph_project/models/glyph_type.dart';
 
 import '../models/database_manager.dart';
@@ -55,9 +56,27 @@ class MainController{
     return _glyphTypes;
   }
 
-  List<Glyph> getGlyphsForType(GlyphType type) {
+  List<ComplexGlyph> getGlyphsForType(GlyphType type) {
     List<Glyph> glyphsForType = _glyphs.where((glyph) => glyph.typeId == type.getId).toList();
-    return glyphsForType;
+
+    // Convertir chaque Glyph en ComplexGlyph avec une liste contenant un seul Glyph
+    List<ComplexGlyph> complexGlyphs = glyphsForType.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
+
+    return complexGlyphs;
+  }
+
+  List<ComplexGlyph> getGlyphsForTypeId(int typeId) {
+    List<Glyph> glyphsForType = _glyphs.where((glyph) => glyph.typeId == typeId).toList();
+
+    // Convertir chaque Glyph en ComplexGlyph avec une liste contenant un seul Glyph
+    List<ComplexGlyph> complexGlyphs = glyphsForType.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
+
+    return complexGlyphs;
+  }
+
+
+  ComplexGlyph fuseGlyphs(List<Glyph> glyphsToFuse) {
+    return ComplexGlyph(glyphs: glyphsToFuse);
   }
 
 }
