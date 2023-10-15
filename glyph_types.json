@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "label": "sujet",
+    "svg": "SVG_pour_sujet",
+    "description": "Catégorie pour les sujets",
+    "isMergeable": false
+  },
+  {
+    "id": 2,
+    "label": "mot",
+    "svg": "SVG_pour_mot",
+    "description": "Catégorie pour les verbes",
+    "isMergeable": false
+  },
+  {
+    "id": 3,
+    "label": "marqueur",
+    "svg": "SVG_pour_verbe",
+    "description": "Catégorie pour les marqueurs",
+    "isMergeable": true
+  }
+]
