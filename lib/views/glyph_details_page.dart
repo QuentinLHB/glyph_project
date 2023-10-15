@@ -59,6 +59,7 @@ class GlyphDetailPage extends StatelessWidget {
             Expanded(
               flex: 1,  // Prend 1/3 de la hauteur disponible
               child: Center(
+                // todo valeurs en dur
                 child: buildComplexGlyph(MainController.instance.fuseGlyphs([...glyph.glyphs, MainController.instance.getGlyphsForTypeId(3)[1].glyphs[0], MainController.instance.getGlyphsForTypeId(3)[0].glyphs[0]]
                 ))
               ),
