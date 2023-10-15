@@ -1,4 +1,7 @@
-[
+{
+  "version": 1.0,
+  "glyphs":
+  [
   {
     "id": 1,
     "type_id": 1,
@@ -56,3 +59,4 @@
     "translation": "négation"
   }
 ]
+}
