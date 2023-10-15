@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glyph_project/models/complex_glyph.dart';
+import 'package:glyph_project/views/widgets/glyph_view.dart';
+import 'package:glyph_project/views/widgets/svg_glyph.dart';
 
-import '../models/glyph.dart';
+import '../../models/glyph.dart';
 
 class GlyphCard extends StatelessWidget {
   final ComplexGlyph glyph;
@@ -27,10 +29,7 @@ class GlyphCard extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(6.0),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: glyph.glyphs.map((g) => SvgGlyphWidget(svgString: g.svg)).toList(),
-                ),
+                child: GlyphView(glyph: glyph),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -52,18 +51,3 @@ class GlyphCard extends StatelessWidget {
   }
 }
 
-class SvgGlyphWidget extends StatelessWidget {
-  final String svgString;
-
-  SvgGlyphWidget({required this.svgString});
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.string(
-      svgString,
-      width: 100,  // Largeur en unités logiques
-      height: 100, // Hauteur en unités logiques
-      fit: BoxFit.contain,
-    );
-  }
-}

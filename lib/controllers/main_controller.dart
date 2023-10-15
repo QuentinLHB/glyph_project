@@ -29,8 +29,9 @@ class MainController {
     final glyphTypesresponse = await http.get(Uri.parse(glyphTypesUrl));
     if (glyphTypesresponse.statusCode == 200) {
       final String jsonResult = glyphTypesresponse.body;
-      if (await MainController.instance.shouldUpdateDatabase(
-          "glyph_type", jsonResult)) await db.populateGlyphTypesTable(jsonResult);
+      if (await MainController.instance
+          .shouldUpdateDatabase("glyph_type", jsonResult))
+        await db.populateGlyphTypesTable(jsonResult);
     }
 
     await initAllGlyphTypes();
@@ -93,19 +94,53 @@ class MainController {
     String currentVersion =
         await DatabaseManager.instance.getVersionForKey(key);
     bool shouldUpdate = currentVersion != distantVersion;
-    print("JSON version : $distantVersion, DB version : $currentVersion (shouldUpdate : $shouldUpdate)");
-    if(shouldUpdate){
+    print(
+        "JSON version : $distantVersion, DB version : $currentVersion (shouldUpdate : $shouldUpdate)");
+    if (shouldUpdate) {
       await DatabaseManager.instance.updateVersionForKey(key, distantVersion);
     }
     return shouldUpdate;
   }
 
   Future<List<ComplexGlyph>> getMergeableGlyphs() async {
-    List<Glyph> mergeableGlyphs= await DatabaseManager.instance.getMergeableGlyphs();
+    List<Glyph> mergeableGlyphs =
+        await DatabaseManager.instance.getMergeableGlyphs();
     // Transformez ensuite chaque Glyph en un ComplexGlyph avec ce Glyph comme seul élément
-    List<ComplexGlyph> mergeableComplexGlyphs = mergeableGlyphs.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
+    List<ComplexGlyph> mergeableComplexGlyphs =
+        mergeableGlyphs.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
 
     return mergeableComplexGlyphs;
   }
 
+  List<ComplexGlyph>? convertStringToGlyphs(String input) {
+    List<Glyph> resultGlyphs = [];
+
+    // Diviser la chaîne d'entrée en mots
+    List<String> words = input.split(' ');
+
+    for (String word in words) {
+      // Chercher le glyph correspondant
+      List<Glyph> matchingGlyphs = _glyphs
+          .where(
+            (glyph) => glyph.label.toLowerCase() == word.toLowerCase(),
+          )
+          .toList();
+
+      if (matchingGlyphs.isEmpty) {
+        // Si on ne trouve pas le glyph pour un des mots, retourner null
+        return null;
+      } else {
+        resultGlyphs.add(matchingGlyphs.first);
+      }
+    }
+    if (resultGlyphs.isEmpty) return null;
+    return convertGlyphsIntoComplexGlyphs(resultGlyphs);
+  }
+
+  List<ComplexGlyph> convertGlyphsIntoComplexGlyphs(
+      List<Glyph> glyphsToConvert) {
+    return glyphsToConvert
+        .map((gl) => ComplexGlyph(glyphs: [gl]))
+        .toList();
+  }
 }

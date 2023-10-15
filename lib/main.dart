@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
-import 'package:glyph_project/views/home_page.dart';
+import 'package:glyph_project/views/pages/dictionary_page.dart';
 import 'package:glyph_project/models/database_manager.dart';
+import 'package:glyph_project/views/pages/home_page.dart';
 
 
 void main() async {
@@ -28,8 +29,18 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
+
+  // ThemeData customTheme = ThemeData(
+  //   primarySwatch: Colors.orange, // Couleur principale de l'application
+  //   textTheme: const TextTheme(
+  //     // Styles de texte par défaut
+  //     displayLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black),
+  //     bodyLarge: TextStyle(fontSize: 16.0, color: Colors.grey),
+  //   ),
+  // );
+
 }
 

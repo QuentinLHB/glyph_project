@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
 import 'package:glyph_project/models/glyph.dart';
 
-import '../models/complex_glyph.dart';
-import 'glyph_card.dart';
+import '../../models/complex_glyph.dart';
+import '../widgets/glyph_card.dart';
+import '../widgets/svg_glyph.dart';
 
 class GlyphDetailPage extends StatefulWidget {
   final ComplexGlyph glyph;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../models/glyph_type.dart';
+import '../../models/glyph_type.dart';
 
 class GlyphTypeWidget extends StatelessWidget {
   final GlyphType glyphType;
