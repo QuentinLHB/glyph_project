@@ -56,16 +56,42 @@ class GlyphDetailPage extends StatelessWidget {
               ),
             ),
             // Partie basse de l'écran pour afficher d'autres éléments ultérieurement
-            Expanded(
-              flex: 1,  // Prend 1/3 de la hauteur disponible
-              child: Center(
-                // todo valeurs en dur
-                child: buildComplexGlyph(MainController.instance.fuseGlyphs([...glyph.glyphs, MainController.instance.getGlyphsForTypeId(3)[1].glyphs[0], MainController.instance.getGlyphsForTypeId(3)[0].glyphs[0]]
-                ))
-              ),
-            ),
+           buildLowerScreen(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildLowerScreen(){
+    return Expanded(
+      flex: 1,  // Prend 1/3 de la hauteur disponible
+      child: FutureBuilder<List<ComplexGlyph>>(
+        future: MainController.instance.getMergeableGlyphs(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Affichez un indicateur de chargement tant que les données ne sont pas chargées
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            // Gérez les erreurs ici
+            return Center(child: Text('Erreur lors du chargement des données'));
+          } else {
+            // Les données sont chargées, vous pouvez les afficher
+            List<ComplexGlyph> mergeableGlyphs = snapshot.data!;
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10.0, // espace entre les cards en horizontal
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 0.6,// espace entre les cards en vertical
+              ),
+              itemCount: mergeableGlyphs.length,
+              itemBuilder: (context, index) {
+                return GlyphCard(glyph: mergeableGlyphs[index]);
+              },
+            );
+          }
+        },
       ),
     );
   }

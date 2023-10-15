@@ -5,23 +5,17 @@ import 'package:flutter/services.dart';
 import 'glyph.dart';
 import 'glyph_type.dart';
 
-
-class DatabaseManager{
-
+class DatabaseManager {
   // Instance statique privée
   static final DatabaseManager _instance = DatabaseManager._internal();
+
   DatabaseManager._internal();
+
   static DatabaseManager get instance => _instance;
 
-
-
-  static late final  Database _db;
-
-
+  static late final Database _db;
 
   Future<void> initDb() async {
-
-
     try {
       print("DEBUG_DB: initDb started");
       _db = await openDatabase(
@@ -37,10 +31,10 @@ class DatabaseManager{
 
       print("DEBUG_DB: initDb ended");
     } catch (e) {
-      print("DEBUG_DB : Erreur lors de l'initialisation de la base de données : $e");
+      print(
+          "DEBUG_DB : Erreur lors de l'initialisation de la base de données : $e");
     }
   }
-
 
   Future<void> _createTables(Database db) async {
     // Créer la table glyph_type si elle n'existe pas déjà
@@ -101,38 +95,25 @@ class DatabaseManager{
     }
   }
 
-
-
-
-
-
   Future<void> populateGlyphTable(String jsonString) async {
     print("DEBUG_DB: populateGlyphTable started");
 
     await deleteAllFromTable("glyph");
     final Map<String, dynamic> decodedJson = jsonDecode(jsonString);
-    final List<dynamic> jsonArray = decodedJson['glyphs'];  // Extraction des glyphes à partir de la clé 'glyphs'
+    final List<dynamic> jsonArray = decodedJson[
+        'glyphs']; // Extraction des glyphes à partir de la clé 'glyphs'
     for (var json in jsonArray) {
       final int id = json['id'];
-
-      // Vérifier si l'élément existe déjà dans la table
-      final existingGlyph = await _db.query(
-        'Glyph',
-        where: 'id = ?',
-        whereArgs: [id],
-      );
-
       // Si l'élément n'existe pas, alors insérez-le
-      if (existingGlyph.isEmpty) {
-        await _db.insert('Glyph', {
-          'id' : id,
-          'type_id': json['type_id'],
-          'label': json['label'],
-          'svg': json['svg'],
-          'description': json['description'],
-          'translation': json['translation'],
-        });
-      }
+
+      await _db.insert('Glyph', {
+        'id': id,
+        'type_id': json['type_id'],
+        'label': json['label'],
+        'svg': json['svg'],
+        'description': json['description'],
+        'translation': json['translation'],
+      });
     }
   }
 
@@ -141,33 +122,23 @@ class DatabaseManager{
 
     await deleteAllFromTable("glyph_type");
     final Map<String, dynamic> decodedJson = jsonDecode(jsonString);
-    final List<dynamic> jsonArray = decodedJson['glyphTypes'];  // Extraction des types de glyphes à partir de la clé 'glyphTypes'
+    final List<dynamic> jsonArray = decodedJson[
+        'glyphTypes']; // Extraction des types de glyphes à partir de la clé 'glyphTypes'
 
     for (var json in jsonArray) {
       final int id = json['id'];
 
-      // Vérifier si l'élément existe déjà dans la table
-      final existingGlyphType = await _db.query(
-        'glyph_type',
-        where: 'id = ?',
-        whereArgs: [id],
-      );
-
-      // Si l'élément n'existe pas, alors insérez-le
-      if (existingGlyphType.isEmpty) {
-        await _db.insert('glyph_type', {
-          'id': id,
-          'label': json['label'],
-          'svg': json['svg'],
-          'description': json['description'],
-          'isMergeable': json['isMergeable'] ? 1 : 0,  // Gestion de booléens en SQLite: 1 pour vrai, 0 pour faux
-        });
-      }
+      await _db.insert('glyph_type', {
+        'id': id,
+        'label': json['label'],
+        'svg': json['svg'],
+        'description': json['description'],
+        'isMergeable': json['isMergeable'] ? 1 : 0,
+        // Gestion de booléens en SQLite: 1 pour vrai, 0 pour faux
+      });
     }
     print("DEBUG_DB: populateGlyphTypes finished");
   }
-
-
 
   /// Gets all glyphs
   Future<List<Glyph>> getAllGlyphs() async {
@@ -186,17 +157,16 @@ class DatabaseManager{
     await _db.execute('DROP TABLE IF EXISTS ${table}');
   }
 
-
-
   Future<List<GlyphType>> getAllGlyphTypes() async {
     final List<Map<String, dynamic>> maps = await _db.query('glyph_type');
 
-    return  List.generate(maps.length, (i) {
+    return List.generate(maps.length, (i) {
       return GlyphType(
         id: maps[i]['id'],
         label: maps[i]['label'],
         svg: maps[i]['svg'],
         description: maps[i]['description'],
+        isMergeable: maps[i]['isMergeable'] == 1,
       );
     });
   }
@@ -209,15 +179,27 @@ class DatabaseManager{
     );
 
     if (results.isNotEmpty) {
-      return results.first['version'] as String?? "0";
+      return results.first['version'] as String ?? "0";
     } else {
       return "0";
     }
   }
 
+  Future<List<Glyph>> getMergeableGlyphs() async {
+    List<Glyph> mergeableGlyphs = [];
+    const String query = '''
+    SELECT g.* FROM glyph AS g
+    JOIN glyph_type AS gt ON g.type_id = gt.id
+    WHERE gt.isMergeable = 1;
+  ''';
 
+    List<Map<String, dynamic>> result = await _db.rawQuery(query);
 
+    for (Map<String, dynamic> row in result) {
+      mergeableGlyphs.add(Glyph.fromMap(row));  // Hypothèse : Vous avez une méthode de conversion .fromMap() sur votre modèle Glyph
+    }
 
-
+    return mergeableGlyphs;
+  }
 
 }

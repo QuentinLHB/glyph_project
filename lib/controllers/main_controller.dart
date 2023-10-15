@@ -66,14 +66,7 @@ class MainController {
   }
 
   List<ComplexGlyph> getGlyphsForType(GlyphType type) {
-    List<Glyph> glyphsForType =
-        _glyphs.where((glyph) => glyph.typeId == type.getId).toList();
-
-    // Convertir chaque Glyph en ComplexGlyph avec une liste contenant un seul Glyph
-    List<ComplexGlyph> complexGlyphs =
-        glyphsForType.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
-
-    return complexGlyphs;
+    return getGlyphsForTypeId(type.id);
   }
 
   List<ComplexGlyph> getGlyphsForTypeId(int typeId) {
@@ -87,10 +80,12 @@ class MainController {
     return complexGlyphs;
   }
 
-  ComplexGlyph fuseGlyphs(List<Glyph> glyphsToFuse) {
+  ComplexGlyph mergeGlyphs(List<Glyph> glyphsToFuse) {
     return ComplexGlyph(glyphs: glyphsToFuse);
   }
 
+  /// Returns true if the version retreived from the JSON is different from
+  /// the one stored in local DB.
   Future<bool> shouldUpdateDatabase(String key, String jsonString) async {
     final Map<String, dynamic> decodedJson = jsonDecode(jsonString);
     final double versionDouble = decodedJson['version'];
@@ -104,4 +99,13 @@ class MainController {
     }
     return shouldUpdate;
   }
+
+  Future<List<ComplexGlyph>> getMergeableGlyphs() async {
+    List<Glyph> mergeableGlyphs= await DatabaseManager.instance.getMergeableGlyphs();
+    // Transformez ensuite chaque Glyph en un ComplexGlyph avec ce Glyph comme seul élément
+    List<ComplexGlyph> mergeableComplexGlyphs = mergeableGlyphs.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
+
+    return mergeableComplexGlyphs;
+  }
+
 }
