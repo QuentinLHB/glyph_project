@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/models/glyph.dart';
 
 import '../models/complex_glyph.dart';
-import '../models/glyph.dart';
 import 'glyph_card.dart';
 
-class GlyphDetailPage extends StatelessWidget {
+class GlyphDetailPage extends StatefulWidget {
   final ComplexGlyph glyph;
 
   GlyphDetailPage({required this.glyph});
+
+  @override
+  _GlyphDetailPageState createState() => _GlyphDetailPageState();
+}
+
+class _GlyphDetailPageState extends State<GlyphDetailPage>  {
+  late ComplexGlyph currentGlyph;
+
+  List<Glyph> mergedGlyphs = [];
+  late StateSetter stateSetter;
+
+  @override
+  void initState() {
+    super.initState();
+    currentGlyph = widget.glyph;
+    mergedGlyphs = List.from(widget.glyph.glyphs);
+  }
+
+  void mergeGlyph(ComplexGlyph newGlyph) {
+    stateSetter(() {
+      if (mergedGlyphs.any((glyph) => glyph.id == newGlyph.glyphs[0].id)) {
+        mergedGlyphs.removeWhere((glyph) => glyph.id == newGlyph.glyphs[0].id);
+      } else {
+        mergedGlyphs.addAll(newGlyph.glyphs);
+      }
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,28 +56,36 @@ class GlyphDetailPage extends StatelessWidget {
               child: Row(
                 children: [
                   // Partie gauche : GlyphCard
-                  Expanded(
-                    child: GlyphCard(glyph: glyph),
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState){
+                      stateSetter = setState;
+                      return Expanded(
+                        child: GlyphCard(glyph: ComplexGlyph(glyphs: mergedGlyphs)),
+                      );
+                    },
+
                   ),
+
+
                   // Partie droite : Description et Traduction
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Description:",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         SizedBox(height: 10),
-                        Text(glyph.description),
+                        Text(currentGlyph.description),
                         SizedBox(height: 20),
-                        Text(
+                        const Text(
                           "Traduction:",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                         SizedBox(height: 10),
-                        Text(glyph.translation ?? "Pas de traduction disponible"),
+                        Text(currentGlyph.translation ?? "Pas de traduction disponible"),
                       ],
                     ),
                   ),
@@ -79,7 +116,7 @@ class GlyphDetailPage extends StatelessWidget {
             // Les données sont chargées, vous pouvez les afficher
             List<ComplexGlyph> mergeableGlyphs = snapshot.data!;
             return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 10.0, // espace entre les cards en horizontal
                 mainAxisSpacing: 10.0,
@@ -87,7 +124,7 @@ class GlyphDetailPage extends StatelessWidget {
               ),
               itemCount: mergeableGlyphs.length,
               itemBuilder: (context, index) {
-                return GlyphCard(glyph: mergeableGlyphs[index]);
+                return GlyphCard(glyph: mergeableGlyphs[index], onClick: () => mergeGlyph(mergeableGlyphs[index]),);
               },
             );
           }
@@ -103,3 +140,5 @@ class GlyphDetailPage extends StatelessWidget {
   }
 
 }
+
+

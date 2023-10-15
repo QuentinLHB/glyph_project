@@ -6,7 +6,7 @@ import '../models/glyph.dart';
 
 class GlyphCard extends StatelessWidget {
   final ComplexGlyph glyph;
-  final Function? onClick;
+  final VoidCallback? onClick;
 
 
   GlyphCard({required this.glyph, this.onClick});
