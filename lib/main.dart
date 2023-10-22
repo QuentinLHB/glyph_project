@@ -8,12 +8,12 @@ import 'package:glyph_project/views/pages/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MainController.instance.initData();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key
+  MyApp({super.key
   });
   
   void initApp()  {
@@ -25,22 +25,45 @@ class MyApp extends StatelessWidget {
     initApp();
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
       home: const HomePage(),
     );
   }
 
-  // ThemeData customTheme = ThemeData(
-  //   primarySwatch: Colors.orange, // Couleur principale de l'application
-  //   textTheme: const TextTheme(
-  //     // Styles de texte par défaut
-  //     displayLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black),
-  //     bodyLarge: TextStyle(fontSize: 16.0, color: Colors.grey),
-  //   ),
-  // );
+
+  ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    useMaterial3: true,
+    textTheme: const TextTheme(
+      displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+      bodyLarge: TextStyle(fontSize: 18, color: Colors.black87),
+    ),
+    appBarTheme: const AppBarTheme(
+      color: Color(0xFFF1D22C),
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Color(0xFFF1D22C),
+    ).copyWith(
+      primary: Color(0xFFF1D22C), // Explicitly set the primary color
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),  // Text color for TextButton
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),  // Text color for ElevatedButton
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),  // Text color for OutlinedButton
+      ),
+    ),
+  );
+
 
 }
 

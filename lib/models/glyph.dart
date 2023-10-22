@@ -50,4 +50,14 @@ class Glyph {
       'translation': _translation,
     };
   }
+
+  static Glyph empty() {
+    return Glyph(
+      typeId: 0,  // ou un autre valeur par défaut pour le typeId
+      label: '',
+      svg: '<svg></svg>',  // un SVG vide
+      description: '',
+      translation: '',
+    );
+  }
 }

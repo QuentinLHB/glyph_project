@@ -1,28 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:glyph_project/views/widgets/glyph_card.dart';
-import 'package:glyph_project/views/widgets/glyph_view.dart';
 
 import '../../controllers/main_controller.dart';
 import '../../models/complex_glyph.dart';
+import 'glyph_view.dart';
 
 class TranslatedTextWidget extends StatelessWidget {
   final String text;
+  final TextStyle? style;
+  final TextAlign? textAlign;
+  final TextDirection? textDirection;
+  final double? size;
 
-  const TranslatedTextWidget({Key? key, required this.text}) : super(key: key);
+  // ... tout autre paramètre que vous voulez personnaliser
+
+  const TranslatedTextWidget(
+      this.text, {
+        Key? key,
+        this.style,
+        this.textAlign = TextAlign.center,
+        this.textDirection,
+        this.size
+        // ... tout autre paramètre que vous voulez personnaliser
+      }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<ComplexGlyph>? translatedGlyphs = MainController.instance.convertStringToGlyphs(text);
 
     if (translatedGlyphs == null) {
-      return Text(text);
+      return Text(
+        text,
+        style: style,
+        textAlign: textAlign,
+        textDirection: textDirection,
+        // ... tout autre paramètre que vous avez inclus
+      );
     } else {
       return Row(
-        children: translatedGlyphs.map((glyph) => GlyphView(glyph: glyph)).toList(),
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: textAlignToMainAxisAlignment(textAlign),
         crossAxisAlignment: CrossAxisAlignment.center,
+        children: translatedGlyphs.map((glyph) => GlyphView(glyph: glyph, size: size,)).toList(),
       );
     }
   }
-}
 
+  MainAxisAlignment textAlignToMainAxisAlignment(TextAlign? textAlign) {
+    switch (textAlign) {
+      case TextAlign.left:
+        return MainAxisAlignment.start;
+      case TextAlign.right:
+        return MainAxisAlignment.end;
+      case TextAlign.center:
+        return MainAxisAlignment.center;
+      case TextAlign.justify:
+      case TextAlign.start:
+      case TextAlign.end:
+        return MainAxisAlignment.start;  // À ajuster selon vos besoins
+      default:
+        return MainAxisAlignment.start;
+    }
+  }
+
+}

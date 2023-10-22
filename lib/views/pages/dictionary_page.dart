@@ -5,6 +5,7 @@ import 'package:glyph_project/models/database_manager.dart';
 import 'package:glyph_project/models/glyph.dart';
 import 'package:glyph_project/views/widgets/glyph_card.dart';
 import 'package:glyph_project/views/widgets/svg_glyph.dart';
+import 'package:glyph_project/views/widgets/translated_text_widget.dart';
 
 import '../../models/glyph_type.dart';
 import 'glyph_details_page.dart';
@@ -25,7 +26,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Dictionnaire"), backgroundColor: Colors.lightBlueAccent),
+          title: TranslatedTextWidget("gline", size: 50, textAlign: TextAlign.start,)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(

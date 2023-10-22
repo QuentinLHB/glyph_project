@@ -5,40 +5,41 @@ import 'package:glyph_project/views/widgets/translated_text_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
+  static const double glyphSize = 50;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
         appBar: AppBar(
-          title: TranslatedTextWidget(text: "oui",),
+          title: const TranslatedTextWidget("gline", size: glyphSize),
           centerTitle: true,
         ),
         drawer: Drawer(
           child: ListView(
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.lightBlueAccent),
-                child: Column(
+              DrawerHeader(
+                decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    TranslatedTextWidget(
                       "Menu",
+                      size:glyphSize,
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.book),
-                title: Text("Dictionnaire"),
+                leading: const Icon(Icons.book),
+                title: const TranslatedTextWidget("gline", size: glyphSize, textAlign: TextAlign.start,),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const DictionaryPage()));
                 },
               ),
               ListTile(
                 leading: Icon(Icons.message),
-                title: Text("Messagerie"),
+                title: TranslatedTextWidget("Messagerie", size: glyphSize,),
                 onTap: () {
                   // Ici, mettez votre navigation vers la page Messagerie
                 },
@@ -52,36 +53,36 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Bienvenue!',
+              const TranslatedTextWidget(
+               'salut',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                size: glyphSize,
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Bienvenue sur notre application. Explorez les fonctionnalités via le menu ou utilisez les boutons ci-dessous.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const DictionaryPage()));
                 },
-                child: Text('Dictionnaire'),
+                child: TranslatedTextWidget('gline', size: 40,),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   // Ici, mettez votre navigation vers la page Messagerie
                 },
-                child: Text('Messagerie'),
+                child: const TranslatedTextWidget('Messagerie', size: glyphSize,),
               ),
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
 }

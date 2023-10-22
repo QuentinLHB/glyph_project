@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
 import 'package:glyph_project/models/glyph.dart';
+import 'package:glyph_project/views/widgets/translated_text_widget.dart';
 
 import '../../models/complex_glyph.dart';
 import '../widgets/glyph_card.dart';
@@ -44,8 +45,7 @@ class _GlyphDetailPageState extends State<GlyphDetailPage>  {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Détails de la Glyph"),
-        backgroundColor: Colors.lightBlueAccent,
+        title: TranslatedTextWidget("mot ${widget.glyph.baseGlyph.label}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

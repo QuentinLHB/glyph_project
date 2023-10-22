@@ -1,8 +1,7 @@
 import 'glyph.dart';
 
-class ComplexGlyph  {
+class ComplexGlyph {
   final List<Glyph> glyphs;
-
 
   ComplexGlyph({
     required this.glyphs,
@@ -18,5 +17,11 @@ class ComplexGlyph  {
 
   List<String> get svgs => glyphs.map((glyph) => glyph.svg).toList();
 
-
+  Glyph get baseGlyph {
+    if (glyphs.length > 0)
+      return glyphs.first;
+    else {
+      return Glyph.empty();
+    }
+  }
 }
