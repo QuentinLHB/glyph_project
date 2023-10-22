@@ -113,29 +113,41 @@ class MainController {
   }
 
   List<ComplexGlyph>? convertStringToGlyphs(String input) {
-    List<Glyph> resultGlyphs = [];
+    List<ComplexGlyph> complexResult = [];
 
-    // Diviser la chaîne d'entrée en mots
-    List<String> words = input.split(' ');
+    // Diviser la chaîne d'entrée par les espaces pour obtenir des groupes de mots
+    List<String> groups = input.split(' ');
 
-    for (String word in words) {
-      // Chercher le glyph correspondant
-      List<Glyph> matchingGlyphs = _glyphs
-          .where(
-            (glyph) => glyph.label.toLowerCase() == word.toLowerCase(),
-          )
-          .toList();
+    for (String group in groups) {
+      // Diviser chaque groupe par le symbole "+"
+      List<String> subWords = group.split('+');
+      List<Glyph> subGlyphs = [];
 
-      if (matchingGlyphs.isEmpty) {
-        // Si on ne trouve pas le glyph pour un des mots, retourner null
-        return null;
-      } else {
-        resultGlyphs.add(matchingGlyphs.first);
+      for (String word in subWords) {
+        // Chercher le glyph correspondant
+        List<Glyph> matchingGlyphs = _glyphs
+            .where(
+              (glyph) => glyph.label.toLowerCase() == word.toLowerCase(),
+        )
+            .toList();
+
+        if (matchingGlyphs.isEmpty) {
+          // Si on ne trouve pas le glyph pour un des mots, retourner null
+          return null;
+        } else {
+          subGlyphs.add(matchingGlyphs.first);
+        }
       }
+
+      ComplexGlyph complexGlyph = ComplexGlyph(glyphs: subGlyphs);
+      complexResult.add(complexGlyph);
     }
-    if (resultGlyphs.isEmpty) return null;
-    return convertGlyphsIntoComplexGlyphs(resultGlyphs);
+
+    if (complexResult.isEmpty) return null;
+    return complexResult;
   }
+
+
 
   List<ComplexGlyph> convertGlyphsIntoComplexGlyphs(
       List<Glyph> glyphsToConvert) {

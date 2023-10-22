@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.message),
-                title: TranslatedTextWidget("Messagerie", size: glyphSize,),
+                title: const TranslatedTextWidget("mot+verbe", size: glyphSize, textAlign: TextAlign.start,),
                 onTap: () {
                   // Ici, mettez votre navigation vers la page Messagerie
                 },
@@ -60,11 +60,11 @@ class HomePage extends StatelessWidget {
                 size: glyphSize,
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Bienvenue sur notre application. Explorez les fonctionnalités via le menu ou utilisez les boutons ci-dessous.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
+              // const TranslatedTextWidget(
+              //   'je+pluriel amour',
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(fontSize: 16),
+              // ), //test
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
@@ -77,7 +77,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   // Ici, mettez votre navigation vers la page Messagerie
                 },
-                child: const TranslatedTextWidget('Messagerie', size: glyphSize,),
+                child: const TranslatedTextWidget('mot+verbe', size: glyphSize,),
               ),
             ],
           ),

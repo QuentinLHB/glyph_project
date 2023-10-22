@@ -3,33 +3,42 @@ import 'package:glyph_project/controllers/main_controller.dart';
 import 'package:glyph_project/views/pages/dictionary_page.dart';
 import 'package:glyph_project/models/database_manager.dart';
 import 'package:glyph_project/views/pages/home_page.dart';
+import 'package:glyph_project/views/widgets/splash_screen.dart';
 
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await MainController.instance.initData();
+void main() {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-  MyApp({super.key
-  });
-  
-  void initApp()  {
+  final Future _initialization = _initializeApp();
+
+  MyApp({super.key});
+
+  static Future _initializeApp() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await MainController.instance.initData();
   }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    initApp();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: lightTheme,
-      home: const HomePage(),
+      home: FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return HomePage(); // ou votre première page après le chargement
+          }
+          if (snapshot.hasError) {
+            return ErrorPage(); // Une page d'erreur simple si quelque chose ne va pas
+          }
+          return SplashScreen(); // Votre SplashScreen pendant le chargement des données
+        },
+      ),
     );
   }
-
 
   ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -49,21 +58,32 @@ class MyApp extends StatelessWidget {
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),  // Text color for TextButton
+        foregroundColor: MaterialStateProperty.all<Color>(
+            Colors.black), // Text color for TextButton
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),  // Text color for ElevatedButton
+        foregroundColor: MaterialStateProperty.all<Color>(
+            Colors.black), // Text color for ElevatedButton
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),  // Text color for OutlinedButton
+        foregroundColor: MaterialStateProperty.all<Color>(
+            Colors.black), // Text color for OutlinedButton
       ),
     ),
   );
-
-
 }
 
+class ErrorPage extends StatelessWidget {
+  const ErrorPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text("Erreur"),
+    );
+  }
+}
