@@ -26,7 +26,15 @@ class MainController {
     DatabaseManager db = DatabaseManager.instance;
     await db.initDb();
 
-    final glyphTypesresponse = await http.get(Uri.parse(glyphTypesUrl));
+    final glyphTypesresponse = await http.get(
+      Uri.parse(glyphTypesUrl),
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    );
+
     if (glyphTypesresponse.statusCode == 200) {
       final String jsonResult = glyphTypesresponse.body;
       if (await MainController.instance
@@ -36,7 +44,14 @@ class MainController {
 
     await initAllGlyphTypes();
 
-    final response = await http.get(Uri.parse(glyphUrl));
+    final response = await http.get(
+      Uri.parse(glyphUrl),
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    );
 
     if (response.statusCode == 200) {
       final String jsonResult = response.body;

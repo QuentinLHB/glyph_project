@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
 import 'package:glyph_project/views/pages/dictionary_page.dart';
+import 'package:glyph_project/views/pages/messages_page.dart';
 import 'package:glyph_project/views/widgets/translated_text_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -75,7 +76,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // Ici, mettez votre navigation vers la page Messagerie
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesPage()));
                 },
                 child: const TranslatedTextWidget('mot+verbe', size: glyphSize,),
               ),
