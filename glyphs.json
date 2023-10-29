@@ -1,5 +1,5 @@
 {
-  "version": 1.1,
+  "version": 1.2,
   "glyphs": [
     {
       "id": 1,
@@ -71,7 +71,7 @@
       "label": "personne",
       "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\">\n<desc>Created with Fabric.js 5.3.0</desc>\n<defs>\n</defs>\n<g transform=\"matrix(0.6060895595 0 0 0.6060895595 140.0791162379 29.9208837621)\" id=\"0BMf7ZOGTfSQNs7XZ9-D-\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 13; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M 0 -25.48725 C 14.06896 -25.48725 25.48725 -14.068959999999999 25.48725 0 C 25.48725 14.06896 14.068959999999999 25.48725 0 25.48725 C -14.06896 25.48725 -25.48725 14.068959999999999 -25.48725 0 C -25.48725 -14.06896 -14.068959999999999 -25.48725 0 -25.48725 z\" stroke-linecap=\"round\" />\n</g>\n<g transform=\"matrix(0.6088868453 0 0 0.6088868453 359.9896371655 30.0103628345)\" id=\"u8xRgpV02_tGtu9h3OP1P\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 13; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M 0 -25.48725 C 14.06896 -25.48725 25.48725 -14.068959999999999 25.48725 0 C 25.48725 14.06896 14.068959999999999 25.48725 0 25.48725 C -14.06896 25.48725 -25.48725 14.068959999999999 -25.48725 0 C -25.48725 -14.06896 -14.068959999999999 -25.48725 0 -25.48725 z\" stroke-linecap=\"round\" />\n</g>\n</svg>",
       "description": "",
-      "translation": "négation"
+      "translation": "personne"
     },
     {
       "id": 10,
