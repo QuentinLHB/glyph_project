@@ -6,10 +6,13 @@ import '../../models/glyph_type.dart';
 class GlyphTypeWidget extends StatelessWidget {
   final GlyphType glyphType;
 
-  GlyphTypeWidget({required this.glyphType});
+
+
+  GlyphTypeWidget({Key? key, required this.glyphType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4.0),
       // Pour donner un peu d'espacement autour du widget

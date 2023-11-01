@@ -120,7 +120,7 @@ class MainController {
     return shouldUpdate;
   }
 
-  Future<List<ComplexGlyph>> getMergeableGlyphs() async {
+  Future<List<ComplexGlyph>> getMergeableComplexGlyphs() async {
     List<Glyph> mergeableGlyphs =
         await DatabaseManager.instance.getMergeableGlyphs();
     // Transformez ensuite chaque Glyph en un ComplexGlyph avec ce Glyph comme seul élément
@@ -128,6 +128,11 @@ class MainController {
         mergeableGlyphs.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
 
     return mergeableComplexGlyphs;
+  }
+
+  Future<List<Glyph>> getMergeableGlyphs() async {
+    return
+        await DatabaseManager.instance.getMergeableGlyphs();
   }
 
   List<ComplexGlyph>? convertStringToGlyphs(String input) {
@@ -169,4 +174,11 @@ class MainController {
       List<Glyph> glyphsToConvert) {
     return glyphsToConvert.map((gl) => ComplexGlyph(glyphs: [gl])).toList();
   }
+
+  ComplexGlyph convertGlyphIntoComplexGlyph(
+      Glyph glyphToConvert) {
+    return  ComplexGlyph(glyphs: [glyphToConvert]);
+  }
+
+
 }

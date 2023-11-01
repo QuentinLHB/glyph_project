@@ -7,13 +7,16 @@ import '../../models/glyph_type.dart';
 class GlyphKeyBoardTile extends StatelessWidget {
   final Glyph glyph;
   final double size;
+  final VoidCallback onTap;
+  final VoidCallback? onLongPress;
+  GlyphKeyBoardTile({Key? key, required this.glyph, required this.size, required this.onTap, this.onLongPress}) : super(key: key);
 
-  GlyphKeyBoardTile({required this.glyph, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: glyph.description, // Message à afficher
+    return InkWell(
+      onTap: ()=> onTap,
+      onLongPress: onLongPress,
       child: Container(
         width: size,  // Ajustez selon vos besoins
         height: size, // Ajustez selon vos besoins
