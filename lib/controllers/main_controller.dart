@@ -82,18 +82,21 @@ class MainController {
   }
 
   List<ComplexGlyph> getGlyphsForType(GlyphType type) {
-    return getGlyphsForTypeId(type.id);
+    return getComplexGlyphsForTypeId(type.id);
   }
 
-  List<ComplexGlyph> getGlyphsForTypeId(int typeId) {
-    List<Glyph> glyphsForType =
-        _glyphs.where((glyph) => glyph.typeId == typeId).toList();
+  List<ComplexGlyph> getComplexGlyphsForTypeId(int typeId) {
+    List<Glyph> glyphsForType = getGlyphsForTypeId(typeId);
 
     // Convertir chaque Glyph en ComplexGlyph avec une liste contenant un seul Glyph
     List<ComplexGlyph> complexGlyphs =
         glyphsForType.map((glyph) => ComplexGlyph(glyphs: [glyph])).toList();
 
     return complexGlyphs;
+  }
+
+  List<Glyph> getGlyphsForTypeId(int typeId) {
+    return _glyphs.where((glyph) => glyph.typeId == typeId).toList();
   }
 
   ComplexGlyph mergeGlyphs(List<Glyph> glyphsToFuse) {
@@ -143,7 +146,7 @@ class MainController {
         List<Glyph> matchingGlyphs = _glyphs
             .where(
               (glyph) => glyph.label.toLowerCase() == word.toLowerCase(),
-        )
+            )
             .toList();
 
         if (matchingGlyphs.isEmpty) {
@@ -162,12 +165,8 @@ class MainController {
     return complexResult;
   }
 
-
-
   List<ComplexGlyph> convertGlyphsIntoComplexGlyphs(
       List<Glyph> glyphsToConvert) {
-    return glyphsToConvert
-        .map((gl) => ComplexGlyph(glyphs: [gl]))
-        .toList();
+    return glyphsToConvert.map((gl) => ComplexGlyph(glyphs: [gl])).toList();
   }
 }
