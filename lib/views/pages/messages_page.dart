@@ -47,6 +47,8 @@ class _MessagesPageState extends State<MessagesPage> {
         centerTitle: true,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildMessageArea(context),
           Expanded(child: _buildGlyphKeyboard(context)),
@@ -65,9 +67,7 @@ class _MessagesPageState extends State<MessagesPage> {
           .of(context)
           .size
           .height * 0.4,
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
-      ),
+
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           messageAreaSetState = setState;
@@ -87,7 +87,7 @@ class _MessagesPageState extends State<MessagesPage> {
                     decoration: BoxDecoration(
                       // Ajoutez les décorations que vous souhaitez ici
                     ),
-                    child: SvgComplexGlyphWidget(complexGlyph: complexGlyph, size: 32), // Adaptez selon votre widget de glyphe
+                    child: SvgComplexGlyphWidget(complexGlyph: complexGlyph, size: 36), // Adaptez selon votre widget de glyphe
                   ),
                 );
               }).toList(),
@@ -142,25 +142,28 @@ class _MessagesPageState extends State<MessagesPage> {
   }
 
   Widget _buildThemeTabs(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        // Pour aligner les éléments à gauche
-        children: types.map((type) {
-          return InkWell(
-            onTap: () {
-              updateKeyboard(type);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 5.0),
-              // Réduisez le padding pour réduire l'espace entre les éléments
-              child: TabIcon(
-                glyphType: type,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          // Pour aligner les éléments à gauche
+          children: types.map((type) {
+            return InkWell(
+              onTap: () {
+                updateKeyboard(type);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 7.0),
+                // Réduisez le padding pour réduire l'espace entre les éléments
+                child: TabIcon(
+                  glyphType: type,
+                ),
               ),
-            ),
-          );
-        }).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -176,7 +179,7 @@ class _MessagesPageState extends State<MessagesPage> {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-           _toggleTranslation();},
+            _toggleTranslation();},
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -200,7 +203,7 @@ class _MessagesPageState extends State<MessagesPage> {
           },
           child: Text('Suppr. le message'),
           style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.error,
+            backgroundColor: Colors.grey,
           ),
         ),
       ],
@@ -221,18 +224,18 @@ class _MessagesPageState extends State<MessagesPage> {
             children: keyboardGlyphs.map((glyph) {
               final key = GlobalKey();
               return Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: GlyphKeyBoardTile(
-                    key: key,
-                    glyph: glyph,
-                    size: 60,
-                    onTap: () =>
-                        write(GlyphController.instance
-                            .convertGlyphIntoComplexGlyph(glyph)),
-                    onLongPress: () => _showFloatingMenu(context, glyph, key),
-                    showTranslation: _isTranslationVisible,
-                  ),
-                );
+                padding: const EdgeInsets.all(1.0),
+                child: GlyphKeyBoardTile(
+                  key: key,
+                  glyph: glyph,
+                  size: 60,
+                  onTap: () =>
+                      write(GlyphController.instance
+                          .convertGlyphIntoComplexGlyph(glyph)),
+                  onLongPress: () => _showFloatingMenu(context, glyph, key),
+                  showTranslation: _isTranslationVisible,
+                ),
+              );
             }).toList(),
           ),
         ),
@@ -261,6 +264,8 @@ class _MessagesPageState extends State<MessagesPage> {
     final position = renderBox.localToGlobal(Offset.zero);
 
     showMenu(
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
       context: context,
       position: RelativeRect.fromLTRB(
         position.dx,
@@ -294,13 +299,16 @@ class _MessagesPageState extends State<MessagesPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: TextButton(
+                child: ElevatedButton(
                   child: Text('Valider'),
                   onPressed: () {
                     selectedGlyphs.insert(0, currentGlyph);
                     write(GlyphController.instance.mergeGlyphs(selectedGlyphs));
                     Navigator.pop(context); // Fermer le menu
                   },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor, // Texte du bouton en blanc
+                  ),
                 ),
               ),
             ],
@@ -324,12 +332,12 @@ class _MessagesPageState extends State<MessagesPage> {
         .label}. Amount of glyphs : ${complexGlyphToWrite.glyphs.length}");
     messageAreaSetState(() =>
         MessageController.instance.addGlyph(complexGlyphToWrite));
-    }
+  }
 
   void delete(ComplexGlyph glyphToDelete) {
     messageAreaSetState(() =>
         MessageController.instance.deleteGlyph(glyphToDelete));
-    }
+  }
 
   void edit(ComplexGlyph glyphToEdit) {
 

@@ -33,18 +33,22 @@ class _SelectableGlyphTileState extends State<SelectableGlyphTile> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: _toggleSelected,
-      child: Container(
-        width: widget.size,
-        height: widget.size,
-        decoration: BoxDecoration(
-          color: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.grey[200], // La couleur change si la tile est sélectionnée
-          border: isSelected ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2) : null, // Ajoute un contour si la tile est sélectionnée
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Center(
-          child: SvgGlyphWidget(svgString: widget.glyph.svg, size: widget.size * 0.6),
+      child: Material(
+        elevation: isSelected ? 5.0 : 2.0, // Ajoute de l'élévation si la tile est sélectionnée
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          width: widget.size,
+          height: widget.size,
+          decoration: BoxDecoration(
+            color: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.grey[200], // La couleur change si la tile est sélectionnée
+            border: isSelected ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2) : null, // Ajoute un contour si la tile est sélectionnée
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(
+            child: SvgGlyphWidget(svgString: widget.glyph.svg, size: widget.size * 0.6),
+          ),
         ),
       ),
     );
-  }
-}
+  }}
+

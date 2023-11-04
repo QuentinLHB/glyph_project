@@ -24,32 +24,43 @@ class GlyphKeyBoardTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       onLongPress: onLongPress,
-      child: Container(
-        width: size,
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire pour le contenu
-          children: [
-            Center(
-              child: SvgGlyphWidget(svgString: glyph.svg, size: size * 0.6),
-            ),
-            if (showTranslation) // Affiche la traduction seulement si showTranslation est true
-              Padding(
-                padding: const EdgeInsets.only(top: 4), // Un peu d'espace entre le SVG et la traduction
-                child: Text(
-                  glyph.translation ?? "-",
-                  style: TextStyle(
-                    fontSize: size * 0.15, // La taille du texte sera proportionnelle à la taille du tile
-                    // Ajoutez ici d'autres styles si nécessaire
+      child: Material(
+        elevation: 1.0,
+        borderRadius: BorderRadius.circular(8), // Appliquez le borderRadius ici
+        color: Colors.transparent, // Assurez-vous que Material n'ajoute pas sa propre couleur de fond
+        child: Ink( // Utilisez Ink pour appliquer une couleur sur un Material avec un borderRadius
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Container(
+            width: size,
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Utilisez l'espace minimum nécessaire pour le contenu
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: SvgGlyphWidget(svgString: glyph.svg, size: size * 0.6),
                   ),
                 ),
-              ),
-          ],
+                if (showTranslation) // Affiche la traduction seulement si showTranslation est true
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4), // Un peu d'espace entre le SVG et la traduction
+                    child: Text(
+                      glyph.translation ?? "-",
+                      style: TextStyle(
+                        fontSize: size * 0.15, // La taille du texte sera proportionnelle à la taille du tile
+                        // Ajoutez ici d'autres styles si nécessaire
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
+
 }
