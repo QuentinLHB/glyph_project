@@ -8,12 +8,12 @@ import 'package:http/http.dart' as http;
 import '../models/glyph.dart';
 import '../utils/constants.dart';
 
-class MainController {
-  static final MainController _instance = MainController._internal();
+class GlyphController {
+  static final GlyphController _instance = GlyphController._internal();
 
-  MainController._internal();
+  GlyphController._internal();
 
-  static MainController get instance => _instance;
+  static GlyphController get instance => _instance;
 
   List<Glyph> _glyphs = <Glyph>[];
   List<GlyphType> _glyphTypes = <GlyphType>[];
@@ -37,7 +37,7 @@ class MainController {
 
     if (glyphTypesresponse.statusCode == 200) {
       final String jsonResult = glyphTypesresponse.body;
-      if (await MainController.instance
+      if (await GlyphController.instance
           .shouldUpdateDatabase("glyph_type", jsonResult))
         await db.populateGlyphTypesTable(jsonResult);
     }
@@ -55,7 +55,7 @@ class MainController {
 
     if (response.statusCode == 200) {
       final String jsonResult = response.body;
-      if (await MainController.instance.shouldUpdateDatabase(
+      if (await GlyphController.instance.shouldUpdateDatabase(
           "glyph", jsonResult)) await db.populateGlyphTable(jsonResult);
     }
 

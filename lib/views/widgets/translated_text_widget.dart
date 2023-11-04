@@ -25,7 +25,7 @@ class TranslatedTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ComplexGlyph>? translatedGlyphs = MainController.instance.convertStringToGlyphs(text);
+    List<ComplexGlyph>? translatedGlyphs = GlyphController.instance.convertStringToGlyphs(text);
 
     if (translatedGlyphs == null) {
       return Text(

@@ -105,7 +105,7 @@ class _GlyphDetailPageState extends State<GlyphDetailPage>  {
     return Expanded(
       flex: 1,  // Prend 1/3 de la hauteur disponible
       child: FutureBuilder<List<ComplexGlyph>>(
-        future: MainController.instance.getMergeableComplexGlyphs(),
+        future: GlyphController.instance.getMergeableComplexGlyphs(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Affichez un indicateur de chargement tant que les données ne sont pas chargées

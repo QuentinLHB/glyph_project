@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/controllers/message_controller.dart';
 import 'package:glyph_project/models/complex_glyph.dart';
 import 'package:glyph_project/models/glyph.dart';
 import 'package:glyph_project/models/glyph_type.dart';
+import 'package:glyph_project/utils/constants.dart';
 import 'package:glyph_project/views/widgets/glyph_keyboard_tile.dart';
+import 'package:glyph_project/views/widgets/svg_glyph.dart';
 import 'package:glyph_project/views/widgets/tab_icon.dart';
 
 import '../widgets/selectable_glyph_tile.dart';
+import '../widgets/svg_complex_glyph_widget.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);
@@ -23,16 +27,16 @@ class _MessagesPageState extends State<MessagesPage> {
   @override
   void initState() {
     super.initState();
-    types = MainController.instance.glyphTypes;
+    types = GlyphController.instance.glyphTypes;
     if (types.isNotEmpty) {
       keyboardGlyphs =
-          MainController.instance.getGlyphsForTypeId(types.first.getId);
+          GlyphController.instance.getGlyphsForTypeId(types.first.getId);
     }
     loadMergeableGlyphs();
   }
 
   void loadMergeableGlyphs() async {
-    mergeableGlyphs = await MainController.instance.getMergeableGlyphs();
+    mergeableGlyphs = await GlyphController.instance.getMergeableGlyphs();
   }
 
   @override
@@ -51,36 +55,93 @@ class _MessagesPageState extends State<MessagesPage> {
     );
   }
 
+  late StateSetter messageAreaSetState;
+
+
   Widget _buildMessageArea(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      height:
-          MediaQuery.of(context).size.height * 0.3, // 30% of the screen height
+      height: MediaQuery
+          .of(context)
+          .size
+          .height * 0.4,
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
       ),
-      child: SingleChildScrollView(
-        child: Text(
-          "Message en train d'être écrit",
-          style: TextStyle(fontSize: 18),
-        ),
+      child: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          messageAreaSetState = setState;
+          return SingleChildScrollView(
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: MessageController.instance.messageBeingWritten.map((
+                  complexGlyph) {
+                return GestureDetector(
+                  onLongPressStart: (LongPressStartDetails details) {
+                    _showContextMenu(details.globalPosition, complexGlyph);
+                  },
+                  child: Container(
+                    // Vous pouvez ajuster la taille et le style comme vous le souhaitez
+                    padding: const EdgeInsets.all(2.0),
+                    decoration: BoxDecoration(
+                      // Ajoutez les décorations que vous souhaitez ici
+                    ),
+                    child: SvgComplexGlyphWidget(complexGlyph: complexGlyph, size: 32), // Adaptez selon votre widget de glyphe
+                  ),
+                );
+              }).toList(),
+            ),
+          );
+        },
       ),
     );
   }
+
+  void _showContextMenu(Offset tapPosition, ComplexGlyph selectedGlyph) {
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        tapPosition.dx,
+        tapPosition.dy,
+        tapPosition.dx + 1,
+        tapPosition.dy + 1,
+      ),
+      items: <PopupMenuEntry>[
+        PopupMenuItem(
+          value: 'edit',
+          child: Text('Modifier'),
+          // Pas besoin de onTap si on a un onTapDown sur le GestureDetector
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          child: Text('Supprimer'),
+          // Pas besoin de onTap si on a un onTapDown sur le GestureDetector
+        ),
+      ],
+    ).then((value) {
+      // Vous pouvez traiter la valeur retournée ici, si nécessaire
+      if (value == 'edit') {
+        edit(selectedGlyph);
+      } else if (value == 'delete') {
+        delete(selectedGlyph);
+      }
+    });
+  }
+
 
   Widget _buildGlyphKeyboard(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildThemeTabs(context),
+        _buildOptionsRow(context),
         Expanded(child: _buildKeyboard(context)),
       ],
     );
   }
 
   Widget _buildThemeTabs(BuildContext context) {
-    // Pour l'instant, je vais simplement simuler une liste de thèmes. Remplacez ceci par le vrai appel au contrôleur.
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -104,6 +165,52 @@ class _MessagesPageState extends State<MessagesPage> {
     );
   }
 
+  bool _isTranslationVisible = false;
+
+  Widget _buildOptionsRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        // Enveloppez la Checkbox et le Texte dans un InkWell
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+           _toggleTranslation();},
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Checkbox(
+                value: _isTranslationVisible,
+                onChanged: (bool? value) {
+                  _toggleTranslation();
+                },
+              ),
+              Text('Traductions'), // Texte à côté de la checkbox
+            ],
+          ),
+        ),
+
+        // Bouton pour supprimer le message
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              MessageController.instance.clearMessage();
+            });
+          },
+          child: Text('Suppr. le message'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        ),
+      ],
+    );
+  }
+
+
+
+
+
   Widget _buildKeyboard(BuildContext context) {
     return ListView(
       children: [
@@ -113,26 +220,19 @@ class _MessagesPageState extends State<MessagesPage> {
             runSpacing: 4, // Espace vertical entre les tiles
             children: keyboardGlyphs.map((glyph) {
               final key = GlobalKey();
-              return LongPressDraggable<Glyph>(
-                data: glyph,
-                feedback: GlyphKeyBoardTile(
-                  glyph: glyph,
-                  size: 60,
-                  onTap: () => writeGlyph(MainController.instance
-                      .convertGlyphIntoComplexGlyph(glyph)),
-                ),
-                child: Padding(
+              return Padding(
                   padding: const EdgeInsets.all(1.0),
                   child: GlyphKeyBoardTile(
-                    key:key,
+                    key: key,
                     glyph: glyph,
                     size: 60,
-                    onTap: () => writeGlyph(MainController.instance
-                        .convertGlyphIntoComplexGlyph(glyph)),
+                    onTap: () =>
+                        write(GlyphController.instance
+                            .convertGlyphIntoComplexGlyph(glyph)),
                     onLongPress: () => _showFloatingMenu(context, glyph, key),
+                    showTranslation: _isTranslationVisible,
                   ),
-                ),
-              );
+                );
             }).toList(),
           ),
         ),
@@ -140,7 +240,8 @@ class _MessagesPageState extends State<MessagesPage> {
     );
   }
 
-  void _showFloatingMenu(BuildContext context, Glyph currentGlyph, GlobalKey key) {
+  void _showFloatingMenu(BuildContext context, Glyph currentGlyph,
+      GlobalKey key) {
     final double buttonSize = 50;
     final double spacing = buttonSize * 0.10;
     final List<Glyph> selectedGlyphs = [];
@@ -155,7 +256,8 @@ class _MessagesPageState extends State<MessagesPage> {
       });
     }
 
-    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox = key.currentContext!
+        .findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
 
     showMenu(
@@ -183,7 +285,8 @@ class _MessagesPageState extends State<MessagesPage> {
                       return SelectableGlyphTile(
                         glyph: glyph,
                         size: buttonSize,
-                        onSelected: (isSelected) => handleSelection(glyph, isSelected),
+                        onSelected: (isSelected) =>
+                            handleSelection(glyph, isSelected),
                       );
                     }).toList(),
                   ),
@@ -194,9 +297,9 @@ class _MessagesPageState extends State<MessagesPage> {
                 child: TextButton(
                   child: Text('Valider'),
                   onPressed: () {
-                    Navigator.pop(context); // Fermer le menu
                     selectedGlyphs.insert(0, currentGlyph);
-                    writeGlyph(MainController.instance.mergeGlyphs(selectedGlyphs));
+                    write(GlyphController.instance.mergeGlyphs(selectedGlyphs));
+                    Navigator.pop(context); // Fermer le menu
                   },
                 ),
               ),
@@ -210,14 +313,35 @@ class _MessagesPageState extends State<MessagesPage> {
   }
 
 
-
   void updateKeyboard(GlyphType type) {
     setState(() {
-      keyboardGlyphs = MainController.instance.getGlyphsForTypeId(type.getId);
+      keyboardGlyphs = GlyphController.instance.getGlyphsForTypeId(type.getId);
     });
   }
 
-  void writeGlyph(ComplexGlyph complexGlyphToWrite) {
-    print("write : ${complexGlyphToWrite.glyphs.first.label}. Amount of glyphs : ${complexGlyphToWrite.glyphs.length}");
+  void write(ComplexGlyph complexGlyphToWrite) {
+    print("write : ${complexGlyphToWrite.glyphs.first
+        .label}. Amount of glyphs : ${complexGlyphToWrite.glyphs.length}");
+    messageAreaSetState(() =>
+        MessageController.instance.addGlyph(complexGlyphToWrite));
+    }
+
+  void delete(ComplexGlyph glyphToDelete) {
+    messageAreaSetState(() =>
+        MessageController.instance.deleteGlyph(glyphToDelete));
+    }
+
+  void edit(ComplexGlyph glyphToEdit) {
+
   }
+
+  void _toggleTranslation() {
+    setState(() {
+      _isTranslationVisible = !_isTranslationVisible;
+      // Ajoutez ici votre logique pour gérer l'affichage de la traduction
+    });
+  }
+
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
 }

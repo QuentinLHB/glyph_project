@@ -30,11 +30,11 @@ class _DictionaryPageState extends State<DictionaryPage> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
-          itemCount: MainController.instance.glyphTypes.length,
+          itemCount: GlyphController.instance.glyphTypes.length,
           itemBuilder: (BuildContext context, int index) {
-            GlyphType glyphType = MainController.instance.glyphTypes[index];
+            GlyphType glyphType = GlyphController.instance.glyphTypes[index];
             List<ComplexGlyph> glyphsForType =
-                MainController.instance.getGlyphsForType(glyphType);
+                GlyphController.instance.getGlyphsForType(glyphType);
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

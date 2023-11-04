@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   static Future _initializeApp() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await MainController.instance.initData();
+    await GlyphController.instance.initData();
   }
 
   // This widget is the root of your application.
