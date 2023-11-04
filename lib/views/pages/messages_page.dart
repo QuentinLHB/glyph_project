@@ -6,6 +6,8 @@ import 'package:glyph_project/models/glyph_type.dart';
 import 'package:glyph_project/views/widgets/glyph_keyboard_tile.dart';
 import 'package:glyph_project/views/widgets/tab_icon.dart';
 
+import '../widgets/selectable_glyph_tile.dart';
+
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);
 
@@ -138,16 +140,22 @@ class _MessagesPageState extends State<MessagesPage> {
     );
   }
 
-  void _showFloatingMenu(
-      BuildContext context, Glyph currentGlyph, GlobalKey key) {
+  void _showFloatingMenu(BuildContext context, Glyph currentGlyph, GlobalKey key) {
     final double buttonSize = 50;
-    final int amountButtonsOnRow = 4;
-    final int amountRows = 2;
-    final double boxSize = (buttonSize*amountButtonsOnRow);
-    final double spacing = buttonSize*0.10;
+    final double spacing = buttonSize * 0.10;
+    final List<Glyph> selectedGlyphs = [];
 
-    final RenderBox renderBox =
-        key.currentContext!.findRenderObject() as RenderBox;
+    void handleSelection(Glyph glyph, bool isSelected) {
+      setState(() {
+        if (isSelected) {
+          selectedGlyphs.add(glyph);
+        } else {
+          selectedGlyphs.remove(glyph);
+        }
+      });
+    }
+
+    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
 
     showMenu(
@@ -160,31 +168,48 @@ class _MessagesPageState extends State<MessagesPage> {
       ),
       items: [
         PopupMenuItem(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: 200.0, // Définir la hauteur maximale que vous voulez
-            ),
-            child: SingleChildScrollView(
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                spacing: spacing,
-                children: mergeableGlyphs.map((glyph) {
-                  return GlyphKeyBoardTile(
-                    glyph: glyph,
-                    size: buttonSize,
-                    onTap: () => {},
-                  );
-                }).toList(),
+          child: Column(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 200.0, // Ajuster selon les besoins pour la liste de glyphes
+                ),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: spacing,
+                    runSpacing: spacing,
+                    children: mergeableGlyphs.map((glyph) {
+                      return SelectableGlyphTile(
+                        glyph: glyph,
+                        size: buttonSize,
+                        onSelected: (isSelected) => handleSelection(glyph, isSelected),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: TextButton(
+                  child: Text('Valider'),
+                  onPressed: () {
+                    Navigator.pop(context); // Fermer le menu
+                    selectedGlyphs.insert(0, currentGlyph);
+                    writeGlyph(MainController.instance.mergeGlyphs(selectedGlyphs));
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ],
     ).then((_) {
-      // À compléter...
+      // Que faire après la fermeture du menu, si nécessaire
     });
-
   }
+
+
 
   void updateKeyboard(GlyphType type) {
     setState(() {
@@ -193,6 +218,6 @@ class _MessagesPageState extends State<MessagesPage> {
   }
 
   void writeGlyph(ComplexGlyph complexGlyphToWrite) {
-    print("write : " + complexGlyphToWrite.glyphs.first.label);
+    print("write : ${complexGlyphToWrite.glyphs.first.label}. Amount of glyphs : ${complexGlyphToWrite.glyphs.length}");
   }
 }
