@@ -1,5 +1,5 @@
 class Glyph {
-  final int? _id;
+  final int _id;
   final int _typeId;
   final String _label;
   final String _svg;
@@ -7,7 +7,7 @@ class Glyph {
   final String? _translation;
 
   Glyph({
-    int? id,
+    required int id,
     required int typeId,
     required String label,
     required String svg,
@@ -20,7 +20,7 @@ class Glyph {
         _description = description,
         _translation = translation;
 
-  int? get id => _id;
+  int get id => _id;
   int get typeId => _typeId;
   String get label => _label;
   String get svg => _svg;
@@ -53,6 +53,7 @@ class Glyph {
 
   static Glyph empty() {
     return Glyph(
+      id: -1,
       typeId: 0,  // ou un autre valeur par défaut pour le typeId
       label: '',
       svg: '<svg></svg>',  // un SVG vide
