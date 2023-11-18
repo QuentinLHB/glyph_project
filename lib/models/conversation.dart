@@ -1,19 +1,41 @@
 import 'message.dart';
 
 class Conversation{
+  String _url = "";
+
+  String get url => _url;
   List<Message> _messages = [];
+
+  set messages(List<Message> value) {
+    _messages = value;
+  }
+
   List<Message> get messages => _messages;
 
-  String title = "";
+  String _title = "";
+
+  set title(String value) {
+    _title = value;
+  }
+
+  String get title => title;
 
 
+  Conversation(String url){
+    _url = url;
+  }
 
-  Conversation();
+  // Conversation();
+  Conversation.loaded(String url, String title, List<Message> messages){
+    _url = url;
+    _title = title;
+    _messages = messages;
+  }
 
   Map<String, dynamic> toJson() {
     return {
-      'title': title,
-      'messages': messages.map((message) => message.toJson()).toList(),
+      'title': _title,
+      'messages': _messages.map((message) => message.toJson()).toList(),
     };
   }
 

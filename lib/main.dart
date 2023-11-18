@@ -24,15 +24,15 @@ void main() {
 class MyApp extends StatelessWidget {
 
   void test(){
-    Glyph gl1 = GlyphController.instance.glyphs[0];
-    Glyph gl2 = GlyphController.instance.glyphs[1];
-    List<Glyph> gls = [gl1, gl2];
-
-    ComplexGlyph glyphs = ComplexGlyph(glyphs: gls);
-
-    List<ComplexGlyph> complexGlyphs = [glyphs];
+    // Glyph gl1 = GlyphController.instance.glyphs[0];
+    // Glyph gl2 = GlyphController.instance.glyphs[1];
+    // List<Glyph> gls = [gl1, gl2];
+    //
+    // ComplexGlyph glyphs = ComplexGlyph(glyphs: gls);
+    //
+    // List<ComplexGlyph> complexGlyphs = [glyphs];
     // String json =  MessageController.instance.createMessageJson("Quentin", complexGlyphs);
-    MessageController.instance.addMessageToJsonFile("Quentin", complexGlyphs, "conv_1");
+    // MessageController.instance.addMessageToJsonFile("Quentin", complexGlyphs, "conv_1");
 
     // MessageController.instance.updateFileOnGitHub("conv_1", json, gitHubToken);
 

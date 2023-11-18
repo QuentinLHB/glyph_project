@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/views/pages/conversation_page.dart';
+import 'package:glyph_project/views/pages/conversations_list_page.dart';
 import 'package:glyph_project/views/pages/dictionary_page.dart';
 import 'package:glyph_project/views/pages/write_message.dart';
 import 'package:glyph_project/views/widgets/translated_text_widget.dart';
@@ -76,7 +78,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WriteMessagePage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ConversationsListPage()));
                 },
                 child: const TranslatedTextWidget('mot+verbe', size: glyphSize,),
               ),
