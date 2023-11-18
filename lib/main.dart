@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 
     List<ComplexGlyph> complexGlyphs = [glyphs];
     // String json =  MessageController.instance.createMessageJson("Quentin", complexGlyphs);
-    MessageController.instance.addMessageToJsonFile("Quentin", complexGlyphs, "conv_1", gitHubToken);
+    MessageController.instance.addMessageToJsonFile("Quentin", complexGlyphs, "conv_1");
 
     // MessageController.instance.updateFileOnGitHub("conv_1", json, gitHubToken);
 
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
         future: _initialization,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            test();
+            // test();
             return HomePage(); // ou votre première page après le chargement
           }
           if (snapshot.hasError) {

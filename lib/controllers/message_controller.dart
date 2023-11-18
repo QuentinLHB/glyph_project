@@ -1,13 +1,23 @@
 import 'package:glyph_project/models/complex_glyph.dart';
+import 'package:glyph_project/utils/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../models/conversation.dart';
 import '../models/message.dart';
 
 class MessageController {
+
+  late String _token;
   static final MessageController _instance = MessageController._internal();
 
-  MessageController._internal();
+  MessageController._internal(){
+    initToken();
+  }
+
+  Future<void> initToken() async{
+    _token = await getToken();
+  }
 
   static MessageController get instance => _instance;
 
@@ -83,36 +93,57 @@ class MessageController {
     return jsonMessage;
   }
 
-  Future<void> addMessageToJsonFile(String sender, List<ComplexGlyph> complexGlyphs, String filePath, String token) async {
+  Future<List<Message>> getMessages(String filePath) async {
     String apiUrl = 'https://api.github.com/repos/QuentinLHB/glyph_conv/contents/$filePath';
 
     final response = await http.get(
       Uri.parse(apiUrl),
       headers: {
-        'Authorization': 'token $token',
+        'Authorization': 'token $_token',
         'Accept': 'application/vnd.github.v3.raw',
       },
     );
     if (response.statusCode == 200) {
       // Étape 2: Décoder le contenu JSON
       var data = jsonDecode(response.body);
-      var messages = (data['messages'] as List).map((item) => Message.fromJson(item)).toList();
+      List<Message> messages = (data['messages'] as List).map((item) =>
+          Message.fromJson(item)).toList();
+      return messages;
+    }else {
+      print('Failed to read file: ${response.body}');
+      return [];
+    }
+  }
 
+  Future<void> addMessageToJsonFile(Conversation conversation, Message messageToAdd, String filePath) async {
+      await getMessages(filePath);
       // Étape 3: Ajouter le nouveau message
-      Message newMessage = createMessage(sender, complexGlyphs);
-      messages.add(newMessage);
+      // Message newMessage = createMessage(sender, complexGlyphs);
+      conversation.messages.add(messageToAdd);
 
-      // Étape 4: Réencoder la liste en JSON
-      data['messages'] = messages.map((message) => message.toJson()).toList();
-      String updatedJson = jsonEncode(data);
+      String updatedJson = jsonEncode(conversation.toJson());
 
       // Étape 5: Écrire le nouveau JSON dans le fichier
       // Utilisez ici la méthode pour écrire dans votre fichier sur GitHub
-      await updateFileOnGitHub('https://api.github.com/repos/QuentinLHB/glyph_conv/contents/$filePath', updatedJson, token);
-    } else {
-      print('Failed to read file: ${response.body}');
+      await updateFileOnGitHub('https://api.github.com/repos/QuentinLHB/glyph_conv/contents/$filePath', updatedJson, _token);
+  }
+
+  Future<String> getToken() async{
+    final response = await http.get(
+      Uri.parse(gitHubToken),
+      headers: {
+      },
+    );
+    if (response.statusCode == 200){
+      return response.body;
+    }else{
+      return "";
     }
   }
+
+
+
+
 
 
 

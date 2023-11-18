@@ -12,14 +12,14 @@ import 'package:glyph_project/views/widgets/tab_icon.dart';
 import '../widgets/selectable_glyph_tile.dart';
 import '../widgets/svg_complex_glyph_widget.dart';
 
-class MessagesPage extends StatefulWidget {
-  const MessagesPage({Key? key}) : super(key: key);
+class WriteMessagePage extends StatefulWidget {
+  const WriteMessagePage({Key? key}) : super(key: key);
 
   @override
-  State<MessagesPage> createState() => _MessagesPageState();
+  State<WriteMessagePage> createState() => _WriteMessagePageState();
 }
 
-class _MessagesPageState extends State<MessagesPage> {
+class _WriteMessagePageState extends State<WriteMessagePage> {
   List<GlyphType> types = <GlyphType>[];
   List<Glyph> keyboardGlyphs = <Glyph>[];
   List<Glyph> mergeableGlyphs = <Glyph>[];
