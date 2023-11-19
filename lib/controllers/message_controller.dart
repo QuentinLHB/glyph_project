@@ -1,3 +1,4 @@
+import 'package:glyph_project/controllers/main_controller.dart';
 import 'package:glyph_project/models/complex_glyph.dart';
 import 'package:glyph_project/utils/constants.dart';
 import 'dart:convert';
@@ -7,16 +8,14 @@ import '../models/conversation.dart';
 import '../models/message.dart';
 
 class MessageController {
-
-  late String _token;
+  String? _token;
   static final MessageController _instance = MessageController._internal();
 
-  MessageController._internal(){
-    initToken();
-  }
+  MessageController._internal();
 
-  Future<void> initToken() async{
-    _token = await getToken();
+  Future<void> initToken() async {
+    if(_token == null) _token = await getToken();
+
   }
 
   static MessageController get instance => _instance;
@@ -44,10 +43,10 @@ class MessageController {
     messageBeingWritten.clear();
   }
 
-  Future<void> updateFileOnGitHub(String filePath, String content, String token) async {
-    final response = await http.get(Uri.parse(filePath), headers: {
-      'Authorization': 'token $token'
-    });
+  Future<void> updateFileOnGitHub(
+      String filePath, String content, String token) async {
+    final response = await http
+        .get(Uri.parse(filePath), headers: {'Authorization': 'token $token'});
 
     if (response.statusCode == 200) {
       final sha = jsonDecode(response.body)['sha'];
@@ -77,15 +76,15 @@ class MessageController {
 
   Message createMessage(String sender, List<ComplexGlyph> complexGlyphs) {
     // Convertir chaque ComplexGlyph en une liste d'IDs
-    List<List<int>> glyphIdGroups = complexGlyphs.map((complexGlyph) => complexGlyph.ids).toList();
+    List<List<int>> glyphIdGroups =
+        complexGlyphs.map((complexGlyph) => complexGlyph.ids).toList();
 
     return Message(
       sender: sender,
       timestamp: DateTime.now(),
-      glyphs: glyphIdGroups,
+      glyphIds: glyphIdGroups,
     );
   }
-
 
   String createMessageJson(String sender, List<ComplexGlyph> glyphs) {
     Message message = createMessage(sender, glyphs);
@@ -116,61 +115,69 @@ class MessageController {
   //   }
   // }
 
-  Future<Conversation?> loadConversationMessage(Conversation conversation) async{
-    final response = await http.get(
-      Uri.parse(conversation.url),
-      headers: {
-        'Authorization': 'token $_token',
-        'Accept': 'application/vnd.github.v3.raw',
-      },
-    );
-    if (response.statusCode == 200) {
-      // Étape 2: Décoder le contenu JSON
-      var data = jsonDecode(response.body);
+  Future<Conversation?> loadConversationMessage(
+      Conversation conversation) async {
+    try {
+      final response = await http.get(
+        Uri.parse(conversation.url),
+        headers: {
+          'Authorization': 'token $_token',
+          'Accept': 'application/vnd.github.v3.raw',
+        },
+      );
+      if (response.statusCode == 200) {
+        // Étape 2: Décoder le contenu JSON
+        var data = jsonDecode(response.body);
 
-      String title = data['title'];
-      List<Message> messages = (data['messages'] as List).map((item) =>
-          Message.fromJson(item)).toList();
+        String? title = data['title'];
+        List<Message> messages = (data['messages'] as List)
+            .map((item) => Message.fromJson(item))
+            .toList();
 
-      conversation.title = title;
-      conversation.messages = messages;
-    }else {
-      print('Failed to read file: ${response.body}');
+
+        conversation.title = title ?? "Conversation";
+        conversation.messages = messages;
+
+        for(Message message in messages){
+          for(List<int> complexGlyphIdList in message.glyphIds){
+            ComplexGlyph complexGlyph = GlyphController.instance.getComplexGlyphsForGlyphIds(complexGlyphIdList);
+            message.glyphs.add(complexGlyph);
+          }
+        }
+
+      } else {
+        print('Failed to read file: ${response.body}');
+        return null;
+      }
+      return conversation;
+    } catch (e) {
       return null;
     }
   }
 
-  Future<void> addMessageToJsonFile(Conversation conversation, Message messageToAdd) async {
-      await loadConversationMessage(conversation); //todo necessary ?
-      // Étape 3: Ajouter le nouveau message
-      // Message newMessage = createMessage(sender, complexGlyphs);
-      conversation.messages.add(messageToAdd);
+  Future<void> addMessageToJsonFile(
+      Conversation conversation, Message messageToAdd) async {
+    await loadConversationMessage(conversation); //todo necessary ?
+    // Étape 3: Ajouter le nouveau message
+    // Message newMessage = createMessage(sender, complexGlyphs);
+    conversation.messages.add(messageToAdd);
 
-      String updatedJson = jsonEncode(conversation.toJson());
+    String updatedJson = jsonEncode(conversation.toJson());
 
-      // Étape 5: Écrire le nouveau JSON dans le fichier
-      // Utilisez ici la méthode pour écrire dans votre fichier sur GitHub
-      await updateFileOnGitHub(conversation.url, updatedJson, _token);
+    // Étape 5: Écrire le nouveau JSON dans le fichier
+    // Utilisez ici la méthode pour écrire dans votre fichier sur GitHub
+    if(_token != null) await updateFileOnGitHub(conversation.url, updatedJson, _token!);
   }
 
-  Future<String> getToken() async{
+  Future<String> getToken() async {
     final response = await http.get(
       Uri.parse(gitHubToken),
-      headers: {
-      },
+      headers: {},
     );
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       return response.body;
-    }else{
+    } else {
       return "";
     }
   }
-
-
-
-
-
-
-
-
 }

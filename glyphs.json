@@ -148,7 +148,7 @@
     {
       "id": 19,
       "type_id": 3,
-      "label": "endroit",
+      "label": "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"></svg>",
       "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"500\" height=\"500\" viewBox=\"0 0 500 500\" xml:space=\"preserve\">\n<desc>Created with Fabric.js 5.3.0</desc>\n<defs>\n</defs>\n<g transform=\"matrix(1.3189214347 0 0 1.3189214347 250.1145309761 250.1145309761)\" id=\"kmQR0VhQE8BXkEHZtMyx1\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 18; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0, 0)\" d=\"M -7.66879 -180.65967 C 92.05535 -180.65967 180.65967 -99.72414 180.65967 0 C 180.65967 99.72414 92.05535 180.65967 -7.668790000000001 180.65967 C -107.39293 180.65967 -180.65967 99.72414 -180.65967 0 C -180.65967 -99.72414 -107.39293 -180.65967 -7.668790000000001 -180.65967 z\" stroke-linecap=\"round\" />\n</g>\n<g transform=\"matrix(1.1600000062 0 0 2.6363636716 429.9999993319 250)\" id=\"D_WHN2YsrC_Daj2dL_X-3\"  >\n<path style=\"stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;\"  transform=\" translate(0.000005, 0.000005)\" d=\"M -94.82759 -94.82759 L 94.82758 -94.82759 L 94.82758 94.82758 L -94.82759 94.82758 z\" stroke-linecap=\"round\" />\n</g>\n</svg>",
       "description": "",
       "translation": "endroit"

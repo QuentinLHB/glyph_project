@@ -10,7 +10,7 @@ class SvgGlyphWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // String correctedSvg = svgString;
-    if(svgString == "") svgString = "<svg></svg>";
+    if(svgString == "") svgString = "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"></svg>";
     return SvgPicture.string(
       svgString,
       width: size ?? 100,  // Largeur en unités logiques

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:glyph_project/controllers/message_controller.dart';
 import 'package:glyph_project/models/complex_glyph.dart';
 import 'package:glyph_project/models/glyph_type.dart';
 
@@ -25,6 +26,8 @@ class GlyphController {
   Future<void> initData() async {
     DatabaseManager db = DatabaseManager.instance;
     await db.initDb();
+
+    await MessageController.instance.initToken(); // inits token
 
     final glyphTypesresponse = await http.get(
       Uri.parse(glyphTypesUrl),
@@ -95,9 +98,25 @@ class GlyphController {
     return complexGlyphs;
   }
 
+  ComplexGlyph getComplexGlyphsForGlyphIds(List<int> glyphIds) {
+    List<Glyph> glyphs = [];
+    for(int i in glyphIds){
+
+      List<Glyph> glyphsForType = _glyphs.where((glyph) => glyph.typeId == glyphIds).toList();
+      Glyph foundGlyph = glyphsForType.isNotEmpty ? glyphsForType.first :  Glyph.empty();
+
+      glyphs.add(foundGlyph);
+    }
+
+    return ComplexGlyph(glyphs: glyphs);
+  }
+
   List<Glyph> getGlyphsForTypeId(int typeId) {
     return _glyphs.where((glyph) => glyph.typeId == typeId).toList();
   }
+
+
+
 
   ComplexGlyph mergeGlyphs(List<Glyph> glyphsToFuse) {
     return ComplexGlyph(glyphs: glyphsToFuse);

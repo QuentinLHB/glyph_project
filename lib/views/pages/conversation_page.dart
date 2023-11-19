@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/message_controller.dart';
 import 'package:glyph_project/models/conversation.dart';
 import 'package:glyph_project/views/pages/write_message.dart';
+import 'package:glyph_project/views/widgets/message_tile_widget.dart';
 
 import '../../models/message.dart';
 
@@ -29,7 +30,7 @@ class _ConversationPageState extends State<ConversationPage> {
               .loadConversationMessage(widget.conversation),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError || (snapshot.hasData && snapshot.data == null)) {
               return Text("Erreur lors de la récupération des messages");
             } else {
@@ -40,11 +41,7 @@ class _ConversationPageState extends State<ConversationPage> {
                     child: ListView.builder(
                       itemCount: conversation.messages.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(conversation.messages[index].sender),
-                          // Affichez les détails du message ici.
-                          subtitle: Text(conversation.messages[index].timestamp.toString()),
-                        );
+                        return MessageTile(message: conversation.messages[index]);
                       },
                     ),
                   ),

@@ -7,6 +7,8 @@ class ComplexGlyph {
     required this.glyphs,
   });
 
+  ComplexGlyph.empty(): glyphs = [Glyph.empty()];
+
   String get translation {
     return glyphs.map((glyph) => glyph.translation ?? "").join(" ");
   }
@@ -26,4 +28,7 @@ class ComplexGlyph {
       return Glyph.empty();
     }
   }
+
+
+
 }

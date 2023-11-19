@@ -1,15 +1,20 @@
+import 'complex_glyph.dart';
+
 class Message {
   String sender;
   DateTime timestamp;
-  List<List<int>> glyphs; // Liste de listes d'ID de glyphs
 
-  Message({required this.sender, required this.timestamp, required this.glyphs});
+  /// First layer : List of complex Glyph. Second Layer : List of Glyphs inside the Complex Glyph.
+  List<List<int>> glyphIds; // Liste de listes d'ID de glyphs
+  List<ComplexGlyph> glyphs = [];
+
+  Message({required this.sender, required this.timestamp, required this.glyphIds});
 
   Map<String, dynamic> toJson() {
     return {
       'sender': sender,
       'timestamp': timestamp.toIso8601String(),
-      'glyphs': glyphs,
+      'glyphs': glyphIds,
     };
   }
 
@@ -17,7 +22,7 @@ class Message {
     return Message(
       sender: json['sender'],
       timestamp: DateTime.parse(json['timestamp']),
-      glyphs: (json['glyphs'] as List<dynamic>)
+      glyphIds: (json['glyphs'] as List<dynamic>)
           .map((e) => List<int>.from(e as List))
           .toList(),
     );
