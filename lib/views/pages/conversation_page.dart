@@ -31,7 +31,8 @@ class _ConversationPageState extends State<ConversationPage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError || (snapshot.hasData && snapshot.data == null)) {
+            } else if (snapshot.hasError ||
+                (snapshot.hasData && snapshot.data == null)) {
               return Text("Erreur lors de la récupération des messages");
             } else {
               Conversation conversation = snapshot.data!;
@@ -41,20 +42,16 @@ class _ConversationPageState extends State<ConversationPage> {
                     child: ListView.builder(
                       itemCount: conversation.messages.length,
                       itemBuilder: (context, index) {
-                        return MessageTile(message: conversation.messages[index]);
+                        return MessageTile(
+                            message: conversation.messages[index]);
                       },
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Naviguer vers la page d'écriture de message.
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WriteMessagePage()),
-                        );
+                      onPressed: () async {
+                        await goToWriteMessage();
                       },
                       child: Text("Écrire un nouveau message"),
                     ),
@@ -64,5 +61,27 @@ class _ConversationPageState extends State<ConversationPage> {
             }
           }),
     );
+  }
+
+  Future<void> goToWriteMessage() async {
+    // Lorsque vous naviguez vers WriteMessagePage
+    var returnedMessage = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => WriteMessagePage()),
+    );
+
+    if (returnedMessage != null) {
+      if (returnedMessage == true) {
+        bool success = await MessageController.instance
+            .validateMessage(widget.conversation, "Quentin"); //todo username
+        if(success){
+          setState(() {});
+        }
+        else{
+          // todo toast
+        }
+
+      }
+    }
   }
 }

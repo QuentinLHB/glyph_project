@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:glyph_project/utils/constants.dart';
 
 class SvgGlyphWidget extends StatelessWidget {
   String svgString;
@@ -10,7 +11,7 @@ class SvgGlyphWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // String correctedSvg = svgString;
-    if(svgString == "") svgString = "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"></svg>";
+    if(svgString == "") svgString = emptySvg;
     return SvgPicture.string(
       svgString,
       width: size ?? 100,  // Largeur en unités logiques

@@ -102,7 +102,7 @@ class GlyphController {
     List<Glyph> glyphs = [];
     for(int i in glyphIds){
 
-      List<Glyph> glyphsForType = _glyphs.where((glyph) => glyph.typeId == glyphIds).toList();
+      List<Glyph> glyphsForType = _glyphs.where((glyph) => glyph.id == i).toList();
       Glyph foundGlyph = glyphsForType.isNotEmpty ? glyphsForType.first :  Glyph.empty();
 
       glyphs.add(foundGlyph);

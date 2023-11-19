@@ -14,8 +14,7 @@ class MessageController {
   MessageController._internal();
 
   Future<void> initToken() async {
-    if(_token == null) _token = await getToken();
-
+    if (_token == null) _token = await getToken();
   }
 
   static MessageController get instance => _instance;
@@ -43,34 +42,42 @@ class MessageController {
     messageBeingWritten.clear();
   }
 
-  Future<void> updateFileOnGitHub(
+  Future<bool> updateFileOnGitHub(
       String filePath, String content, String token) async {
-    final response = await http
-        .get(Uri.parse(filePath), headers: {'Authorization': 'token $token'});
+    try {
+      final response = await http
+          .get(Uri.parse(filePath), headers: {'Authorization': 'token $token'});
 
-    if (response.statusCode == 200) {
-      final sha = jsonDecode(response.body)['sha'];
+      if (response.statusCode == 200) {
+        final sha = jsonDecode(response.body)['sha'];
 
-      final updateResponse = await http.put(
-        Uri.parse(filePath),
-        headers: {
-          'Authorization': 'token $token',
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode({
-          'message': 'update file',
-          'content': base64Encode(utf8.encode(content)),
-          'sha': sha,
-        }),
-      );
+        final updateResponse = await http.put(
+          Uri.parse(filePath),
+          headers: {
+            'Authorization': 'token $token',
+            'Content-Type': 'application/json'
+          },
+          body: jsonEncode({
+            'message': 'update file',
+            'content': base64Encode(utf8.encode(content)),
+            'sha': sha,
+          }),
+        );
 
-      if (updateResponse.statusCode == 200) {
-        print('File updated');
+        if (updateResponse.statusCode == 200) {
+          print('File updated');
+          return true;
+        } else {
+          print('Failed to update file: ${updateResponse.body}');
+          return false;
+        }
       } else {
-        print('Failed to update file: ${updateResponse.body}');
+        print('Failed to get file: ${response.body}');
+        return false;
       }
-    } else {
-      print('Failed to get file: ${response.body}');
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
@@ -90,6 +97,17 @@ class MessageController {
     Message message = createMessage(sender, glyphs);
     String jsonMessage = jsonEncode(message.toJson());
     return jsonMessage;
+  }
+
+  Future<bool> validateMessage(Conversation conversation, String sender) async {
+    // Message newMessage = createMessageJson(sender, messageBeingWritten);
+    Message newMessage = createMessage(sender, messageBeingWritten);
+    bool success = await _sendMessage(conversation, newMessage);
+    if(success) {
+      conversation.messages.add(newMessage);
+      messageBeingWritten.clear();
+    }
+    return success;
   }
 
   // Future<Conversation?> getConversation(Conversation conversation) async {
@@ -134,17 +152,16 @@ class MessageController {
             .map((item) => Message.fromJson(item))
             .toList();
 
-
         conversation.title = title ?? "Conversation";
         conversation.messages = messages;
 
-        for(Message message in messages){
-          for(List<int> complexGlyphIdList in message.glyphIds){
-            ComplexGlyph complexGlyph = GlyphController.instance.getComplexGlyphsForGlyphIds(complexGlyphIdList);
+        for (Message message in messages) {
+          for (List<int> complexGlyphIdList in message.glyphIds) {
+            ComplexGlyph complexGlyph = GlyphController.instance
+                .getComplexGlyphsForGlyphIds(complexGlyphIdList);
             message.glyphs.add(complexGlyph);
           }
         }
-
       } else {
         print('Failed to read file: ${response.body}');
         return null;
@@ -155,18 +172,29 @@ class MessageController {
     }
   }
 
-  Future<void> addMessageToJsonFile(
+  Future<bool> _sendMessage(
       Conversation conversation, Message messageToAdd) async {
-    await loadConversationMessage(conversation); //todo necessary ?
-    // Étape 3: Ajouter le nouveau message
-    // Message newMessage = createMessage(sender, complexGlyphs);
-    conversation.messages.add(messageToAdd);
+    try {
+      await loadConversationMessage(conversation); //todo necessary ?
+      // Étape 3: Ajouter le nouveau message
+      // Message newMessage = createMessage(sender, complexGlyphs);
+      conversation.messages.add(messageToAdd);
 
-    String updatedJson = jsonEncode(conversation.toJson());
+      String updatedJson = jsonEncode(conversation.toJson());
 
-    // Étape 5: Écrire le nouveau JSON dans le fichier
-    // Utilisez ici la méthode pour écrire dans votre fichier sur GitHub
-    if(_token != null) await updateFileOnGitHub(conversation.url, updatedJson, _token!);
+      // Étape 5: Écrire le nouveau JSON dans le fichier
+      // Utilisez ici la méthode pour écrire dans votre fichier sur GitHub
+      if (_token != null){
+        bool success = await updateFileOnGitHub(conversation.url, updatedJson, _token!);
+        return success;
+      }else {
+        return false;
+      }
+
+
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<String> getToken() async {

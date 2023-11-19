@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/views/widgets/svg_complex_glyph_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/message.dart';
 
@@ -11,7 +12,7 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Réduit le padding vertical
       margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -22,14 +23,15 @@ class MessageTile extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 message.sender,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               ),
               Text(
-                message.timestamp.toIso8601String(),
-                style: TextStyle(fontSize: 12),
+                  formatDate(message.timestamp),
+                style: TextStyle(fontSize: 8),
               ),
               PopupMenuButton<String>(
                 onSelected: (String result) {
@@ -49,11 +51,22 @@ class MessageTile extends StatelessWidget {
               ),
             ],
           ),
-          ...message.glyphs.map((complexGlyph) {
-            return SvgComplexGlyphWidget(complexGlyph: complexGlyph, size: 16,);
-          }).toList(),
+          Wrap(
+            spacing: 8.0, // Espace horizontal entre les glyphes
+            runSpacing: 8.0, // Espace vertical entre les lignes
+            children: message.glyphs.map((complexGlyph) {
+              return SvgComplexGlyphWidget(complexGlyph: complexGlyph, size: 30);
+            }).toList(),
+          ),
         ],
       ),
     );
   }
+
+  String formatDate(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm:ss');
+    return formatter.format(dateTime);
+  }
+
+
 }

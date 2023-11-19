@@ -51,10 +51,27 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildMessageArea(context),
+          Center(child:ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary),
+            onPressed: sendMessage,
+            child: SizedBox(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.5, // Largeur souhaitée en points
+              child: Center(child: Text("Envoyer")),
+            ),
+          )
+          ),
           Expanded(child: _buildGlyphKeyboard(context)),
         ],
       ),
     );
+  }
+
+  void sendMessage(){
+    Navigator.pop(context, true);
+
   }
 
   late StateSetter messageAreaSetState;
@@ -92,6 +109,7 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
                 );
               }).toList(),
             ),
+
           );
         },
       ),
@@ -328,8 +346,8 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
   }
 
   void write(ComplexGlyph complexGlyphToWrite) {
-    print("write : ${complexGlyphToWrite.glyphs.first
-        .label}. Amount of glyphs : ${complexGlyphToWrite.glyphs.length}");
+    // print("write : ${complexGlyphToWrite.glyphs.first
+    //     .label}. Amount of glyphs : ${complexGlyphToWrite.glyphs.length}");
     messageAreaSetState(() =>
         MessageController.instance.addGlyph(complexGlyphToWrite));
   }
@@ -350,6 +368,6 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
     });
   }
 
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  // final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
 }

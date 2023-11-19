@@ -18,7 +18,7 @@ class Conversation{
     _title = value;
   }
 
-  String get title => title;
+  String get title => _title;
 
 
   Conversation(String url){

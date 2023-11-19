@@ -1,3 +1,5 @@
+import '../utils/constants.dart';
+
 class Glyph {
   final int _id;
   final int _typeId;
@@ -56,7 +58,7 @@ class Glyph {
       id: -1,
       typeId: 0,  // ou un autre valeur par défaut pour le typeId
       label: '',
-      svg: '<svg></svg>',  // un SVG vide
+      svg: emptySvg,  // un SVG vide
       description: '',
       translation: '',
     );
