@@ -39,4 +39,8 @@ class Conversation{
     };
   }
 
+  void clearMessages(){
+    _messages.clear();
+  }
+
 }

@@ -198,4 +198,25 @@ class MessageController {
       return "";
     }
   }
+
+  Future<bool> clearConversation(Conversation conversation) async{
+    conversation.clearMessages();
+    try {
+      // Étape 3: Ajouter le nouveau message
+      // Message newMessage = createMessage(sender, complexGlyphs);
+      String updatedJson = jsonEncode(conversation.toJson());
+      // Étape 5: Écrire le nouveau JSON dans le fichier
+      // Utilisez ici la méthode pour écrire dans votre fichier sur GitHub
+      if (_token != null) {
+        bool success =
+            await updateFileOnGitHub(conversation.url, updatedJson, _token!);
+        return success;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+
+  }
 }
