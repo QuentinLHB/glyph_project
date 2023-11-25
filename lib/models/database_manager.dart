@@ -68,6 +68,14 @@ class DatabaseManager {
       version TEXT NOT NULL
     );
   ''');
+
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS app_parameters (
+      id INTEGER PRIMARY KEY,
+      key TEXT NOT NULL,
+      value TEXT NULL
+    );
+  ''');
   }
 
   Future<void> updateVersionForKey(String key, String version) async {
@@ -170,6 +178,43 @@ class DatabaseManager {
       );
     });
   }
+
+  Future<String?> getParameter(String key) async{
+    final List<Map<String, dynamic>> results = await _db.query(
+      'app_parameters',
+      where: 'key = ?',
+      whereArgs: [key],
+    );
+
+    if (results.isNotEmpty) {
+      return results.first['value'] as String;
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool> updateParameter(String key, String newValue) async {
+    int updated = await _db.update(
+      'app_parameters',
+      {'value': newValue},
+      where: 'key = ?',
+      whereArgs: [key],
+    );
+
+    if (updated > 0) {
+      // Si la mise à jour a réussi, retourne vrai
+      return true;
+    } else {
+      // Si aucune ligne n'a été mise à jour, insère une nouvelle ligne
+      int inserted = await _db.insert(
+        'app_parameters',
+        {'key': key, 'value': newValue},
+      );
+      return inserted > 0; // Retourne vrai si l'insertion a réussi
+    }
+  }
+
+
 
   Future<String> getVersionForKey(String key) async {
     final List<Map<String, dynamic>> results = await _db.query(

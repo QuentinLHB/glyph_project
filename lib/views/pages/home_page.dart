@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/controllers/glyph_controller.dart';
 import 'package:glyph_project/views/pages/conversation_page.dart';
 import 'package:glyph_project/views/pages/conversations_list_page.dart';
 import 'package:glyph_project/views/pages/dictionary_page.dart';

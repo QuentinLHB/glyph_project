@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/controllers/glyph_controller.dart';
 import 'package:glyph_project/controllers/message_controller.dart';
 import 'package:glyph_project/models/complex_glyph.dart';
 import 'package:glyph_project/models/glyph.dart';

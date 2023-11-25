@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:glyph_project/controllers/message_controller.dart';
+import 'package:glyph_project/controllers/parameter_controller.dart';
 import 'package:glyph_project/models/conversation.dart';
 import 'package:glyph_project/views/pages/write_message.dart';
 import 'package:glyph_project/views/widgets/message_tile_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../models/message.dart';
 
@@ -97,7 +99,7 @@ class _ConversationPageState extends State<ConversationPage> {
           forceLoading = true;
         });
         bool success = await MessageController.instance
-            .validateMessage(widget.conversation, "Quentin"); //todo username
+            .validateMessage(widget.conversation, await ParameterController.instance.getPseudo()); //todo username
         if (success) {
           setState(() {
             forceLoading = false;
@@ -125,7 +127,8 @@ class _ConversationPageState extends State<ConversationPage> {
   void _handleMenuSelection(MenuOptions value) {
     switch (value) {
       case MenuOptions.changeName:
-      // Logique pour changer de nom
+        _changeNameDialog();
+
         break;
       case MenuOptions.deleteContent:
         _confirmDeleteContent();
@@ -155,9 +158,7 @@ class _ConversationPageState extends State<ConversationPage> {
             ElevatedButton(
               child: Text('Supprimer'),
               onPressed: () {
-                // Ajoutez ici la logique pour supprimer le contenu
                 delete();
-
                 Navigator.of(context).pop(); // Ferme la boîte de dialogue
               },
             ),
@@ -172,5 +173,47 @@ class _ConversationPageState extends State<ConversationPage> {
     if(success) setState(() {});
 
   }
+
+  void _changeNameDialog() {
+    TextEditingController nameController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Changer de nom'),
+          content: TextField(
+            controller: nameController,
+            decoration: InputDecoration(hintText: "Entrez un nouveau nom"),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Annuler'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+            ),
+            ElevatedButton(
+              child: Text('Valider'),
+              onPressed: () {
+                String newName = nameController.text; // Récupère le nouveau nom
+                if(newName.isNotEmpty){ changePseudo(newName);
+                Fluttertoast.showToast(msg:"Nouveau nom enregistré : $newName");
+                }
+                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  Future<void> changePseudo(String newPseudo) async{
+    bool success = await  ParameterController.instance.setPseudo(newPseudo);
+    // if(!success) // todo toast
+  }
+
 
 }

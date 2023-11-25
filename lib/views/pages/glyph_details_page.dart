@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glyph_project/controllers/main_controller.dart';
+import 'package:glyph_project/controllers/glyph_controller.dart';
 import 'package:glyph_project/models/glyph.dart';
 import 'package:glyph_project/views/widgets/translated_text_widget.dart';
 
